@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel>
+<g:VerticalPanel>
+	<g:HorizontalPanel verticalAlignment="MIDDLE">
+		<g:Label ui:field="colorLabel" width="20px" height="24px" >#</g:Label>
+		<g:TextBox ui:field="hex">ffffff</g:TextBox>
+		<g:Button ui:field="pick">pick</g:Button>
+	</g:HorizontalPanel>
+	<g:VerticalPanel ui:field="controls">
+	<g:HorizontalPanel  ui:field="control">
+		<g:Button ui:field="minus">-</g:Button>
+		<g:Button ui:field="plus">+</g:Button>
+	</g:HorizontalPanel>
+	<g:VerticalPanel ui:field="main"/>
+	<g:HorizontalPanel>
+		<g:Button ui:field="rg">r/g</g:Button>
+		<g:Button ui:field="rb">r/b</g:Button>
+		<g:Button ui:field="gb">g/b</g:Button>
+	    <g:Button ui:field="grey">grey</g:Button>
+	</g:HorizontalPanel>
+	<g:HorizontalPanel horizontalAlignment="center">
+		<g:Label ui:field="current"/>
+	</g:HorizontalPanel>
+	</g:VerticalPanel>
+</g:VerticalPanel>
+</g:HTMLPanel>
+</ui:UiBinder> 
