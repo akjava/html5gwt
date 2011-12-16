@@ -6,3 +6,6 @@ color pick - not html5
 ----
 I tested only Windows Chrome.if there are contributer I will support others.
 but maybe official would support all platform.
+
+BUG
+range widget don't fire event when setValue() called.

@@ -1,2 +1,4 @@
 /war
 /.settings
+/tmp
+/.gitignore
