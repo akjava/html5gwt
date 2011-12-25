@@ -17,10 +17,29 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.Element;
 
 public class FileUtils {
 
 	public static final native JsArray<File> toFile(NativeEvent event)/*-{
     return event.target.files;
+  }-*/;
+	
+	
+	/*
+	 * dont work yet
+	 */
+	public static final native void addDropListener(Element element,DropListener listener)/*-{
+	element.addEventListener("dragenter", function(e){
+	console.log("enter");	
+	 if(e.preventDefault) { e.preventDefault(); }
+                return false;
+	}, false);
+		
+    element.addEventListener("drop",function(e){
+    	e.preventDefault();
+    	console.log("dropped");
+    listener.@com.akjava.gwt.html5.client.file.DropListener::onDrop(Lcom/google/gwt/core/client/JsArray;)(e.dataTransfer.files);
+     },false);
   }-*/;
 }
