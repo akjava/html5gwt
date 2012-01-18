@@ -39,4 +39,17 @@ public class HTML5Builder {
 		
 		return label;
 	}
+	
+	public static Label createRangeLabel(final String text,final HTML5InputRange range,final int divided){
+		final Label label=new Label();
+		label.setText(text+""+((double)range.getValue()/divided));
+		label.setStylePrimaryName("title");
+		range.addListener(new HTML5InputRangeListener() {
+			@Override
+			public void changed(int newValue) {
+				label.setText(text+""+((double)newValue/divided));
+			}
+		});
+		return label;
+	}
 }
