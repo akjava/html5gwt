@@ -28,6 +28,10 @@ public class FileReader extends JavaScriptObject {
 	    this.readAsText(blob,encode);
 	   }-*/;
 	  
+	  public  final native void readAsDataURL(File blob) /*-{
+	    this.readAsDataURL(blob);
+	   }-*/;
+	  
 		public  final native String getResultAsString()/*-{
 	    return this.result;
 	  }-*/;
