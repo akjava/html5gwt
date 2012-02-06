@@ -42,4 +42,7 @@ public class FileUtils {
     listener.@com.akjava.gwt.html5.client.file.DropListener::onDrop(Lcom/google/gwt/core/client/JsArray;)(e.dataTransfer.files);
      },false);
   }-*/;
+	
+	
+
 }
