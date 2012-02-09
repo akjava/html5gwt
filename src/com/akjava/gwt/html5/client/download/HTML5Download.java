@@ -1,5 +1,7 @@
 package com.akjava.gwt.html5.client.download;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 
 
@@ -16,6 +18,9 @@ public class HTML5Download {
 	}-*/;
 	
 	public static Anchor generateTextDownloadLink(String text,String fileName,String anchorText){
+		return generateTextDownloadLink(text,fileName,anchorText,false);
+	}
+	public static Anchor generateTextDownloadLink(String text,String fileName,String anchorText,boolean autoRemove){
 		DownloadBlobBuilder bb=HTML5Download.BlobBuilder();
 		String mimeType="text/plain";
 		bb.append(text);
@@ -25,6 +30,15 @@ public class HTML5Download {
 		link.setHref(url);
 		link.getElement().setAttribute("download", fileName);
 		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);
+		if(autoRemove){
+			link.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					link.removeFromParent();
+				}
+			});
+		}
 		return link;
 	}
 	
