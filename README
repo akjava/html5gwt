@@ -1,6 +1,6 @@
 something html5 like widget.
 
-File API - only readAsText(),readAsDataURl()
+File API - only readAsText(),readAsDataURl(), this works Chrome & Firefox 12,not works any IE yet
 File Download API
 Range Widget
 color pick - not html5
