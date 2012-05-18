@@ -17,6 +17,8 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Element;
 
 public class FileUtils {
@@ -42,6 +44,39 @@ public class FileUtils {
     listener.@com.akjava.gwt.html5.client.file.DropListener::onDrop(Lcom/google/gwt/core/client/JsArray;)(e.dataTransfer.files);
      },false);
   }-*/;
+	
+	//TODO support other case
+	/*
+	 * why need reset because sometime you would like to re-upload modified same file.in such case it need reset though it's use change-handler.
+	 */
+	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
+		final FileUploadForm form=new FileUploadForm();
+		form.getFileUpload().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				final FileReader reader=FileReader.createFileReader();
+				final JsArray<File> files=FileUtils.toFile(event.getNativeEvent());
+				if(files.length()>0){
+				reader.setOnLoad(new FileHandler() {
+					@Override
+					public void onLoad() {
+						listener.uploaded(files.get(0), reader.getResultAsString());
+						if(reset){
+							form.reset();
+						}
+					}
+				});
+				reader.readAsDataURL(files.get(0));
+				}
+				
+			}
+		});
+		return form;
+	}
+	
+	public interface DataURLListener{
+		public void uploaded(File file,String value);
+	}
 	
 	
 
