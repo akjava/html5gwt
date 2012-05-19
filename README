@@ -1,8 +1,8 @@
 something html5 like widget.
 
 File API - only readAsText(),readAsDataURl(), this works Chrome & Firefox 12,not works any IE yet
-File Download API
-Range Widget
+File Download API,this works only Chrome
+Range Widget,this works only Chrome
 color pick - not html5
 ----
 I tested only Windows Chrome.if there are contributer I will support others.
