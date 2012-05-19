@@ -42,6 +42,28 @@ public class HTML5Download {
 		return link;
 	}
 	
+	public static Anchor generateBase64DownloadLink(String urlData,String mimeType,String fileName,String anchorText,boolean autoRemove){
+		DownloadBlobBuilder bb=HTML5Download.BlobBuilder();
+		bb.appendBase64(urlData);
+		
+		final Anchor link=new Anchor(anchorText);
+		String url=HTML5Download.URL().createObjectURL(bb.getBlob(mimeType));
+		link.setHref(url);
+		link.getElement().setAttribute("download", fileName);
+		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);
+		if(autoRemove){
+			link.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					link.removeFromParent();
+				}
+			});
+		}
+		return link;
+	}
+	
+	
 	public static Anchor generateDownloadLink(DownloadBlobBuilder blob,String mimeType,String fileName,String anchorText){
 		final Anchor link=new Anchor(anchorText);
 		String url=HTML5Download.URL().createObjectURL(blob.getBlob(mimeType));
