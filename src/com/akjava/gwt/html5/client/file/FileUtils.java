@@ -15,6 +15,9 @@
  */
 package com.akjava.gwt.html5.client.file;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -23,6 +26,9 @@ import com.google.gwt.user.client.Element;
 
 public class FileUtils {
 
+	/*
+	 * can not shift
+	 */
 	public static final native JsArray<File> toFile(NativeEvent event)/*-{
     return event.target.files;
   }-*/;
@@ -74,10 +80,58 @@ public class FileUtils {
 		return form;
 	}
 	
+	
+	public static FileUploadForm createMultiFileUploadForm(final DataURLsListener listener,final boolean reset){
+		final FileUploadForm form=new FileUploadForm();
+		form.setMultiple(true);
+		form.getFileUpload().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				final FileReader reader=FileReader.createFileReader();
+				final JsArray<File> tmp=FileUtils.toFile(event.getNativeEvent());
+				@SuppressWarnings("unchecked")
+				final JsArray<File> files=(JsArray<File>) JsArray.createArray();
+				for(int i=0;i<tmp.length();i++){
+					files.push(tmp.get(i));
+				}
+				
+				final List<File> dataFiles=new ArrayList<File>();
+				final List<String> values=new ArrayList<String>();
+				if(files.length()>0){
+				reader.setOnLoad(new FileHandler() {
+					@Override
+					public void onLoad() {
+						dataFiles.add(files.get(0));
+						values.add(reader.getResultAsString());
+						
+						files.shift();
+						if(files.length()==0){
+							listener.uploaded(dataFiles,values);
+							if(reset){
+								form.reset();
+							}
+						}else{
+							reader.readAsDataURL(files.get(0));
+						}
+						
+						
+					}
+				});
+				reader.readAsDataURL(files.get(0));
+				}
+				
+			}
+		});
+		return form;
+	}
+	
 	public interface DataURLListener{
 		public void uploaded(File file,String value);
 	}
 	
+	public interface DataURLsListener{
+		public void uploaded(List<File> files,List<String> values);
+	}
 	
 
 }

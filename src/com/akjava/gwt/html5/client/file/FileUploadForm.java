@@ -19,6 +19,12 @@ public FileUploadForm(){
 	add(fileUpload);
 }
 
-
+public void setMultiple(boolean bool){
+	if(bool){
+		fileUpload.getElement().setAttribute("multiple","multiple");
+	}else{
+		fileUpload.getElement().removeAttribute("multiple");
+	}
+}
 
 }
