@@ -61,7 +61,7 @@ public class ColorPickWidget extends Composite {
 		plus.setVisible(false);
 		minus.setVisible(false);
 		
-		hex.setWidth("80px");
+		hex.setWidth("50px");
 		range = new HTML5InputRange(0, 15, 0);
 		range.setWidth("160px");
 		range.addMouseUpHandler(new MouseUpHandler() {
@@ -114,6 +114,9 @@ public class ColorPickWidget extends Composite {
 	}
 	public int getValue(){
 		return currentColor;
+	}
+	public String getValueAsHex(){
+		return toCssColor(currentColor);
 	}
 	private int getColorAt(int cx,int cy){
 		if(mode!=MODE_GREY){
