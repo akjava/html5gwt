@@ -27,6 +27,9 @@ public class FileReader extends JavaScriptObject {
 	  public  final native void readAsText(File blob,String encode) /*-{
 	    this.readAsText(blob,encode);
 	   }-*/;
+	  public  final native void readAsArrayBuffer(File blob) /*-{
+	    this.readAsArrayBuffer(blob);
+	   }-*/;
 	  
 	  public  final native void readAsDataURL(File blob) /*-{
 	    this.readAsDataURL(blob);
@@ -34,6 +37,15 @@ public class FileReader extends JavaScriptObject {
 	  
 		public  final native String getResultAsString()/*-{
 	    return this.result;
+	  }-*/;
+		
+		public  final native Unit8Array getResultAsBuffer()/*-{
+			if(this.result){
+				return new $wnd.Uint8Array(this.result);
+			}else{
+				return null;
+			}
+	    
 	  }-*/;
 		
 	  

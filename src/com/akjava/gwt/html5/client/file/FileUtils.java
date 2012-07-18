@@ -33,6 +33,10 @@ public class FileUtils {
     return event.target.files;
   }-*/;
 	
+	public static final native JsArray<File> transferToFile(NativeEvent event)/*-{
+    return event.dataTransfer.files;
+  }-*/;
+	
 	
 	/*
 	 * dont work yet
