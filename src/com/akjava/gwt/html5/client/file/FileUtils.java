@@ -18,6 +18,7 @@ package com.akjava.gwt.html5.client.file;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.akjava.gwt.html5.client.file.webkit.Item;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -35,6 +36,9 @@ public class FileUtils {
 	
 	public static final native JsArray<File> transferToFile(NativeEvent event)/*-{
     return event.dataTransfer.files;
+  }-*/;
+	public static final native JsArray<Item> transferToItem(NativeEvent event)/*-{
+    return event.dataTransfer.items;
   }-*/;
 	
 	

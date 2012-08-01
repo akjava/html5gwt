@@ -5,6 +5,7 @@ import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileUtils;
 import com.akjava.gwt.html5.client.file.Unit8Array;
+import com.akjava.gwt.html5.client.file.webkit.Item;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -13,8 +14,6 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -28,9 +27,9 @@ public class HTML5Test implements EntryPoint {
 		RootPanel.get().add(root);
 		
 		
-		
+		root.add(new Label("simple"));
 		final TextArea area=new TextArea();
-		area.setSize("400px","400px");
+		area.setSize("400px","200px");
 		
 		
 		
@@ -113,6 +112,73 @@ public class HTML5Test implements EntryPoint {
 		});
 		root.add(area);
 		
+		root.add(new Label("chrome folder support"));
+		final TextArea area2=new TextArea();
+		area2.setSize("400px","200px");
+		
+		
+		area2.addDropHandler(new DropHandler() {
+			
+			@Override
+			public void onDrop(DropEvent event) {
+			
+				event.preventDefault();
+				
+				final FileReader reader=FileReader.createFileReader();
+				final JsArray<Item> items=FileUtils.transferToItem(event.getNativeEvent());
+				GWT.log("length:"+items.length());
+				if(items.length()>0){
+					
+					
+				for(int i=0;i<items.length();i++){
+					log(items.get(i).webkitGetAsEntry());
+				}
+					
+				reader.setOnLoad(new FileHandler() {
+					@Override
+					public void onLoad() {
+						log("loaded:");
+						String text="";
+						
+						if(asString){
+							text=reader.getResultAsString();
+						}else{
+							Unit8Array array=reader.getResultAsBuffer();
+							log("length:"+array.length());
+							
+						StringBuilder builder=new StringBuilder();
+						for(int i=0;i<array.length();i++){
+							builder.append((char)array.get(i));
+						
+						}
+						
+						builder.toString();
+						}
+						
+						area.setText(text);
+						
+					}
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+				}
+				
+				
+				
+				
+			//	event.stopPropagation();
+				
+				
+				
+			}
+		});
+		root.add(area2);
 	}
 	
 	
@@ -128,7 +194,7 @@ public class HTML5Test implements EntryPoint {
 	 * can not shift
 	 */
 	public static final native void log(JavaScriptObject obj)/*-{
-    $wnd.console.log(""+obj);
+    $wnd.console.log(obj);
   }-*/;
 	public static final native void log(String obj)/*-{
     $wnd.console.log(obj);
