@@ -6,6 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class DirectoryReader extends JavaScriptObject{
 protected DirectoryReader(){}
 
+//TODO support error
 public  final native void readEntries(DirectoryCallback callback)/*-{
 
 this.readEntries( function(entries){

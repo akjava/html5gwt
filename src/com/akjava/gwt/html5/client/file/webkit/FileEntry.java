@@ -20,6 +20,7 @@ public class FileEntry extends JavaScriptObject{
   	}-*/;
 	
 	
+	//TODO support error
 	public  final native void file(FileCallback callback)/*-{
    
     this.file( function(file){
