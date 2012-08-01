@@ -5,6 +5,9 @@ import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileUtils;
 import com.akjava.gwt.html5.client.file.Unit8Array;
+import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
+import com.akjava.gwt.html5.client.file.webkit.FileCallback;
+import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.Item;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -88,6 +91,7 @@ public class HTML5Test implements EntryPoint {
 					}
 				});
 				
+				log(files.get(0));
 				if(asString){
 					reader.readAsText(files.get(0),"UTF-8");
 				}else{
@@ -124,41 +128,44 @@ public class HTML5Test implements EntryPoint {
 			
 				event.preventDefault();
 				
-				final FileReader reader=FileReader.createFileReader();
+				
+				final FileCallback callback=new FileCallback() {
+					@Override
+					public void callback(File file) {
+						String newText=file.getFileName()+","+file.getFileSize();
+						String old=area2.getText()+"\n";
+						area2.setText(old+newText);
+						
+					}
+				};
+				
+				
 				final JsArray<Item> items=FileUtils.transferToItem(event.getNativeEvent());
 				GWT.log("length:"+items.length());
 				if(items.length()>0){
-					
-					
 				for(int i=0;i<items.length();i++){
 					log(items.get(i).webkitGetAsEntry());
-				}
 					
-				reader.setOnLoad(new FileHandler() {
-					@Override
-					public void onLoad() {
-						log("loaded:");
-						String text="";
-						
-						if(asString){
-							text=reader.getResultAsString();
-						}else{
-							Unit8Array array=reader.getResultAsBuffer();
-							log("length:"+array.length());
-							
-						StringBuilder builder=new StringBuilder();
-						for(int i=0;i<array.length();i++){
-							builder.append((char)array.get(i));
-						
-						}
-						
-						builder.toString();
-						}
-						
-						area.setText(text);
+					FileEntry entry= items.get(i).webkitGetAsEntry();
+					
+					if(entry.isFile()){
+						entry.file(callback);
+					}else if(entry.isDirectory()){
+						//items.get(i)
+						entry.getReader().readEntries(new DirectoryCallback() {
+							@Override
+							public void callback(JsArray<FileEntry> entries) {
+								for(int j=0;j<entries.length();j++){
+									entries.get(j).file(callback);
+								}
+							}
+						});
 						
 					}
-				});
+					
+				}
+					
+				
 				
 				
 				
