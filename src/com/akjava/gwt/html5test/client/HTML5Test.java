@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -26,8 +27,12 @@ public class HTML5Test implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		
+		TabPanel tab=new TabPanel();
+		RootPanel.get().add(tab);
+		
 		VerticalPanel root = new VerticalPanel();
-		RootPanel.get().add(root);
+		tab.add(root,"upload");
 
 		root.add(new Label("simple"));
 		final TextArea area = new TextArea();
@@ -154,6 +159,9 @@ public class HTML5Test implements EntryPoint {
 			}
 		});
 		root.add(area2);
+		
+		tab.add(new InputRangeTest(),"range");
+		tab.selectTab(1);
 	}
 
 	public static final native void doit(JavaScriptObject obj)/*-{
