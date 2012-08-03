@@ -26,7 +26,7 @@ public class HTML5InputRange extends FocusPanel implements InputRange{
 	public HTML5InputRange(int min,int max,int current){
 		String agent=Window.Navigator.getUserAgent();
 		//GWT.log(agent);
-		if(agent.indexOf("xSafari")!=-1){
+		if(agent.indexOf("Safari")!=-1){
 			range=new ElementInputRange(min, max, current);
 		}else{
 			range=new CanvasInputRange(min, max, current);

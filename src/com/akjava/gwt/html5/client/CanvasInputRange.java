@@ -309,22 +309,7 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 		return max;
 	}
 
-	public static final native void log(JavaScriptObject object)/*-{
-	if (navigator.appName == 'Microsoft Internet Explorer'){
-		return;
-	}
-if(console){
-	console.log(object);
-}
-}-*/;
-public static final native void log(String object)/*-{
-	if (navigator.appName == 'Microsoft Internet Explorer'){
-		return;
-	}
-if(console){
-	console.log(object);
-}
-}-*/;
+
 	
 	
 
