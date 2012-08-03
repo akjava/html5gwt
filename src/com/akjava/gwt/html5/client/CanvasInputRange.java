@@ -140,10 +140,11 @@ private boolean enabled=true;
 		int p=(int) (vwidth*getParsent(value));
 		pointX=margin+p;
 		updateCanvas();
+		fireEvent();
 	}
 	public double getParsent(int value){
 		int total=max-min;
-		return (double)value/total;
+		return (double)(value-min)/total;
 	}
 	
 	private int getValueByXPoint(int point){
@@ -255,6 +256,16 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 		updateCanvas();
 	}
 
+	@Override
+	public void setWidth(int width) {
+		this.width=width;
+		canvas.setWidth(width+"px");
+		canvas.setCoordinateSpaceWidth(width);
+		update(getValue());
+	}
 
+
+	
+	
 
 }

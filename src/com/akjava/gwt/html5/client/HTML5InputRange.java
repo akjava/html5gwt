@@ -65,4 +65,9 @@ public class HTML5InputRange extends FocusPanel implements InputRange{
 	public void setEnabled(boolean bool) {
 		range.setEnabled(bool);
 	}
+
+	@Override
+	public void setWidth(int width) {
+		range.setWidth(width);
+	}
 }
