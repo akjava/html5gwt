@@ -45,5 +45,41 @@ public class InputRangeTest extends VerticalPanel{
 			}
 		});
 		add(reset);
+		add(create(1,1,1));
+		add(create(1,2,1));
+		add(create(1,3,2));
+		
+		HorizontalPanel h4=new HorizontalPanel();
+		final CanvasInputRange crange4=new CanvasInputRange(1,5, 1);
+		crange4.setWidth(200);
+		h4.add(crange4);
+		h4.add(HTML5Builder.createRangeLabel("value:", crange4));
+		add(h4);
+		Button next=new Button("next",new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				crange4.setValue(crange4.getValue()+1);
+			}
+		});
+		h4.add(next);
+		
+Button prev=new Button("prev",new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				crange4.setValue(crange4.getValue()-1);
+			}
+		});
+h4.add(prev);
 	};
+	
+	public HorizontalPanel create(int min,int max,int value){
+		HorizontalPanel panel=new HorizontalPanel();
+		final CanvasInputRange crange2=new CanvasInputRange(min,max,value);
+		crange2.setWidth(200);
+		panel.add(crange2);
+		panel.add(HTML5Builder.createRangeLabel("value:", crange2));
+		return panel;
+	}
 }

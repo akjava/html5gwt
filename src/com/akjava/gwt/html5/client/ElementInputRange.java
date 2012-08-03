@@ -106,4 +106,12 @@ public class ElementInputRange extends FocusWidget implements HasChangeHandlers,
 	public void setWidth(int width) {
 		this.setWidth(width+"px");
 	}
+	@Override
+	public int getMin() {
+		return getRangeElement().getMin();
+	}
+	@Override
+	public int getMax() {
+		return getRangeElement().getMax();
+	}
 }

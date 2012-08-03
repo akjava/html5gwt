@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -50,6 +52,7 @@ private boolean enabled=true;
 		canvas.setCoordinateSpaceHeight(height);
 		canvas.setSize(width+"px", height+"px");
 		add(canvas);
+		/*
 		canvas.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -60,6 +63,7 @@ private boolean enabled=true;
 				update();
 			}
 		});
+		*/
 		
 		canvas.addMouseUpHandler(new MouseUpHandler() {
 			
@@ -82,7 +86,8 @@ private boolean enabled=true;
 				}
 				
 				mousePressed=true;
-				updateCanvas();
+				pointX=event.getX();
+				update();//for value change before mouse up;
 			}
 		});
 		canvas.addMouseMoveHandler(new MouseMoveHandler() {
@@ -131,16 +136,24 @@ private boolean enabled=true;
 				canvas.setFocus(false);
 			}
 		});
+		lastValue=current+1;
 		update(current);
 	}
 	
+	int lastValue;
 	private void update(int value){
+		
 		this.value=value;
 		int vwidth=canvas.getCoordinateSpaceWidth()-margin*2;
 		int p=(int) (vwidth*getParsent(value));
 		pointX=margin+p;
 		updateCanvas();
+		
+		if(value!=lastValue){
+		
 		fireEvent();
+		lastValue=value;
+		}
 	}
 	public double getParsent(int value){
 		int total=max-min;
@@ -148,19 +161,36 @@ private boolean enabled=true;
 	}
 	
 	private int getValueByXPoint(int point){
+		
+		if(max-min<(width-margin*2)){
+		int mx=point-margin;
+		double perpixel=(getRealWidth())/(getRealMax()+1);
+		//GWT.log(min+" - "+max+",per:"+perpixel+" "+",realwidth="+getRealWidth()+",realMax="+getRealMax());
+		int pt=(int) (mx/perpixel);
+	
+		return pt+min;
+		}else{
 		point-=margin;
 		int maxPoint=canvas.getCoordinateSpaceWidth()-margin*2;
 		double parsent=(double)point/maxPoint;
 		return (int) (parsent*(max-min)+min);
+		}
 	}
+	private int getRealWidth(){
+		return width-margin*2;
+	}
+	private int getRealMax(){
+		return max-min;
+	}
+	
 	private void update(){
-		updateCanvas();
+		//updateCanvas();
 		
 		value=getValueByXPoint(pointX);
 		value=Math.max(value,min);
 		value=Math.min(value,max);
+		update(value);
 		
-		fireEvent();
 	}
 	private void updateCanvas(){
 canvas.getContext2d().clearRect(0, 0, width, height);
@@ -226,7 +256,12 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 
 	@Override
 	public void setValue(int value) {
-		
+		 if(value<getMin()){
+			 value=getMin();
+		 }
+		 if(value>getMax()){
+			 value=getMax();
+		 }
 		update(value);
 	}
 
@@ -264,7 +299,32 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 		update(getValue());
 	}
 
+	@Override
+	public int getMin() {
+		return min;
+	}
 
+	@Override
+	public int getMax() {
+		return max;
+	}
+
+	public static final native void log(JavaScriptObject object)/*-{
+	if (navigator.appName == 'Microsoft Internet Explorer'){
+		return;
+	}
+if(console){
+	console.log(object);
+}
+}-*/;
+public static final native void log(String object)/*-{
+	if (navigator.appName == 'Microsoft Internet Explorer'){
+		return;
+	}
+if(console){
+	console.log(object);
+}
+}-*/;
 	
 	
 
