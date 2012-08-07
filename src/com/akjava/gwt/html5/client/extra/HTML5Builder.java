@@ -9,7 +9,7 @@ public class HTML5Builder {
 		final Label label=new Label();
 		label.setText(text+""+range.getValue());
 		label.setStylePrimaryName("title");
-		range.addListener(new InputRangeListener() {
+		range.addInputRangeListener(new InputRangeListener() {
 			@Override
 			public void changed(int newValue) {
 				label.setText(text+""+newValue);
@@ -42,7 +42,7 @@ public class HTML5Builder {
 		final Label label=new Label();
 		label.setText(text+""+((double)range.getValue()/divided));
 		label.setStylePrimaryName("title");
-		range.addListener(new InputRangeListener() {
+		range.addInputRangeListener(new InputRangeListener() {
 			@Override
 			public void changed(int newValue) {
 				label.setText(text+""+((double)newValue/divided));

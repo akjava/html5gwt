@@ -45,10 +45,10 @@ public class ElementInputRange extends FocusWidget implements HasChangeHandlers,
 	 
 
 	 private List<InputRangeListener> listeners=new ArrayList<InputRangeListener>();
-	 public synchronized void addListener(InputRangeListener listener){
+	 public synchronized void addInputRangeListener(InputRangeListener listener){
 		 listeners.add(listener);
 	 }
-	 public synchronized void removeListener(InputRangeListener listener){
+	 public synchronized void removeInputRangeListener(InputRangeListener listener){
 		 listeners.remove(listener);
 	 }
 	 

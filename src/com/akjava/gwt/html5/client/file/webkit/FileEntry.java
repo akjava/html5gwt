@@ -19,6 +19,9 @@ public class FileEntry extends JavaScriptObject{
     return this.name;
   	}-*/;
 	
+	public  final native String getFullPath()/*-{
+    return this.fullPath;
+  	}-*/;
 	
 	//TODO support error
 	public  final native void file(FileCallback callback)/*-{
@@ -29,6 +32,16 @@ public class FileEntry extends JavaScriptObject{
     
   	}-*/;
 	
+	//TODO support error
+	public  final native void file(FilePathCallback callback,String parent)/*-{
+   
+    this.file( function(file){
+    	callback.@com.akjava.gwt.html5.client.file.webkit.FilePathCallback::callback(Lcom/akjava/gwt/html5/client/file/File;Ljava/lang/String;)(file,parent)
+    });
+    
+  	}-*/;
+	
+
 	
 	public  final native DirectoryReader getReader()/*-{
     return this.createReader();

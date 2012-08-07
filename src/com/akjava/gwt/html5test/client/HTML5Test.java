@@ -1,5 +1,7 @@
 package com.akjava.gwt.html5test.client;
 
+import mx4j.log.Log;
+
 import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
@@ -8,6 +10,7 @@ import com.akjava.gwt.html5.client.file.Unit8Array;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
+import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -113,13 +116,17 @@ public class HTML5Test implements EntryPoint {
 
 				event.preventDefault();
 
-				final FileCallback callback = new FileCallback() {
+				final FilePathCallback callback = new FilePathCallback() {
 					@Override
-					public void callback(File file) {
-						String newText = file.getFileName() + ","
-								+ file.getFileSize();
-						String old = area2.getText() + "\n";
-						area2.setText(old + newText);
+					public void callback(File file,String path) {
+						log(file);
+						String name=file!=null?file.getFileName() :"";
+						String size=file!=null?""+file.getFileSize():"";
+						String newText = path+"/"+name+ ","
+								+ size;
+						
+						String old = area2.getText();
+						area2.setText(old + newText+"\n");
 
 					}
 				};
@@ -133,23 +140,7 @@ public class HTML5Test implements EntryPoint {
 
 						FileEntry entry = items.get(i).webkitGetAsEntry();
 
-						if (entry.isFile()) {
-							entry.file(callback);
-						} else if (entry.isDirectory()) {
-							// items.get(i)
-							entry.getReader().readEntries(
-									new DirectoryCallback() {
-										@Override
-										public void callback(
-												JsArray<FileEntry> entries) {
-											for (int j = 0; j < entries
-													.length(); j++) {
-												entries.get(j).file(callback);
-											}
-										}
-									});
-
-						}
+						entryCallback(entry,callback,"");
 
 					}
 
@@ -162,6 +153,25 @@ public class HTML5Test implements EntryPoint {
 		
 		tab.add(new InputRangeTest(),"range");
 		tab.selectTab(1);
+	}
+	
+	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
+		if (entry.isFile()) {
+			entry.file(callback,path);
+		} else if (entry.isDirectory()) {
+			entry.getReader().readEntries(
+					new DirectoryCallback() {
+						@Override
+						public void callback(
+								JsArray<FileEntry> entries) {
+							callback.callback(null, entry.getFullPath());
+							for (int j = 0; j < entries
+									.length(); j++) {
+								entryCallback(entries.get(j),callback,entry.getFullPath());
+							}
+						}
+					});
+		}
 	}
 
 	public static final native void doit(JavaScriptObject obj)/*-{

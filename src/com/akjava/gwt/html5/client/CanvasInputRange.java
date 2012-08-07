@@ -272,10 +272,10 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 
 
 	 private List<InputRangeListener> listeners=new ArrayList<InputRangeListener>();
-	 public synchronized void addListener(InputRangeListener listener){
+	 public synchronized void addInputRangeListener(InputRangeListener listener){
 		 listeners.add(listener);
 	 }
-	 public synchronized void removeListener(InputRangeListener listener){
+	 public synchronized void removeInputRangeListener(InputRangeListener listener){
 		 listeners.remove(listener);
 	 }
 	 

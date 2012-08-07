@@ -47,11 +47,11 @@ public class HTML5InputRange extends FocusPanel implements InputRange{
 	 
 	
 	
-	 public synchronized void addListener(InputRangeListener listener){
-		 range.addListener(listener);
+	 public synchronized void addInputRangeListener(InputRangeListener listener){
+		 range.addInputRangeListener(listener);
 	 }
-	 public synchronized void removeListener(InputRangeListener listener){
-		 range.removeListener(listener);
+	 public synchronized void removeInputRangeListener(InputRangeListener listener){
+		 range.removeInputRangeListener(listener);
 	 }
 	 
 	
