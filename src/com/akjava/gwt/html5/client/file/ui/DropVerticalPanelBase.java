@@ -12,7 +12,7 @@ import com.google.gwt.event.dom.client.HasDropHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class DropHorizontalPanel extends VerticalPanel implements HasDropHandlers, HasDragOverHandlers,
+public class DropVerticalPanelBase extends VerticalPanel implements HasDropHandlers, HasDragOverHandlers,
 HasDragLeaveHandlers{
 
 	  @Override
