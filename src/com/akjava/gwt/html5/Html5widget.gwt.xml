@@ -19,4 +19,16 @@
   <source path='client'/>
   <source path='shared'/>
 
+ <replace-with class="com.akjava.gwt.html5.client.CanvasInputRange">
+    <when-type-is class="com.akjava.gwt.html5.client.InputRangeWidget"/>
+ </replace-with>
+
+
+  <replace-with class="com.akjava.gwt.html5.client.HTML5InputRange">
+    <when-type-is class="com.akjava.gwt.html5.client.InputRangeWidget"/>
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+      </any>
+  </replace-with>
+  
 </module>

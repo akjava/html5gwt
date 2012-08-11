@@ -1,28 +1,33 @@
 package com.akjava.gwt.html5test.client;
 
 import com.akjava.gwt.html5.client.CanvasInputRange;
-import com.akjava.gwt.html5.client.HTML5InputRange;
+import com.akjava.gwt.html5.client.InputRangeWidget;
 import com.akjava.gwt.html5.client.extra.HTML5Builder;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputRangeTest extends VerticalPanel{
 
 	public InputRangeTest(){
 		
+		add(new Label("Native"));
 		HorizontalPanel h1=new HorizontalPanel();
 		add(h1);
-		HTML5InputRange range=new HTML5InputRange(0, 100, 50);
+		InputRangeWidget range=InputRangeWidget.createInputRange(0, 100, 50);
 		h1.add(range);
-		h1.add(HTML5Builder.createRangeLabel("value:", range));
-		
-		
 		range.setEnabled(false);
 		
+		HorizontalPanel h1b=new HorizontalPanel();
+		add(h1b);
+		InputRangeWidget range2=InputRangeWidget.createInputRange(0, 100, 50);
+		h1b.add(range2);
+	
 		
+		add(new Label("Canvas"));
 		HorizontalPanel h2=new HorizontalPanel();
 		add(h2);
 		CanvasInputRange crange=new CanvasInputRange(0, 100, 50);
@@ -55,14 +60,6 @@ public class InputRangeTest extends VerticalPanel{
 		h4.add(crange4);
 		h4.add(HTML5Builder.createRangeLabel("value:", crange4));
 		add(h4);
-		Button next=new Button("next",new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				crange4.setValue(crange4.getValue()+1);
-			}
-		});
-		h4.add(next);
 		
 Button prev=new Button("prev",new ClickHandler() {
 			
@@ -72,6 +69,17 @@ Button prev=new Button("prev",new ClickHandler() {
 			}
 		});
 h4.add(prev);
+
+		Button next=new Button("next",new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				crange4.setValue(crange4.getValue()+1);
+			}
+		});
+		h4.add(next);
+		
+
 	};
 	
 	public HorizontalPanel create(int min,int max,int value){

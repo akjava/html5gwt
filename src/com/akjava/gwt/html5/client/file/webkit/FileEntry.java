@@ -42,7 +42,7 @@ public class FileEntry extends JavaScriptObject{
   	}-*/;
 	
 
-	
+	//for directory only
 	public  final native DirectoryReader getReader()/*-{
     return this.createReader();
   	}-*/;

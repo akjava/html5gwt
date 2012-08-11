@@ -15,26 +15,23 @@
  */
 package com.akjava.gwt.html5.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HTML5InputRange extends FocusPanel implements InputRange{
+public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 
-	InputRange range;
-	public HTML5InputRange(int min,int max,int current){
-		String agent=Window.Navigator.getUserAgent();
-		//GWT.log(agent);
-		if(agent.indexOf("Safari")!=-1){
-			range=new ElementInputRange(min, max, current);
-		}else{
-			range=new CanvasInputRange(min, max, current);
-		}
+	
+	
+	
+
+
+	private ElementInputRange range;
+
+	public HTML5InputRange(){
+		range = new ElementInputRange();
 		add((Widget) range);
 	}
-
-	 public int getValue(){
+	
+	public int getValue(){
 		return range.getValue();
 	 }
 	 public void setMax(int max){
@@ -81,4 +78,5 @@ public class HTML5InputRange extends FocusPanel implements InputRange{
 	public int getMax() {
 		return range.getMax();
 	}
+
 }

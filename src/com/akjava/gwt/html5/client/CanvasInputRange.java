@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -16,9 +12,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.FocusPanel;
 
-public class CanvasInputRange extends FocusPanel implements InputRange{
+public class CanvasInputRange extends InputRangeWidget implements InputRange{
 private Canvas canvas;
 private int width;
 private int height;
@@ -40,8 +35,11 @@ private boolean enabled=true;
 		canvas.setCoordinateSpaceHeight(h);
 		canvas.setSize(w+"px", h+"px");
 	}
-
+	public CanvasInputRange(){
+		this(0,100,0);
+	}
 	public CanvasInputRange(int min,int max,int current){
+		super();
 		this.width=130;
 		this.height=26;
 		this.min=min;

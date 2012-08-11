@@ -13,6 +13,9 @@ import com.google.gwt.user.client.ui.FocusWidget;
 
 public class ElementInputRange extends FocusWidget implements HasChangeHandlers,InputRange{
 
+	public ElementInputRange(){
+		this(0,100,0);
+	}
 	public ElementInputRange(int min,int max,int current){
 		super(RangeElement.createRangeElement(Document.get(),min,max,current));
 		this.addChangeHandler(new ChangeHandler() {

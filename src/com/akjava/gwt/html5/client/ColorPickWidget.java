@@ -62,7 +62,7 @@ public class ColorPickWidget extends Composite {
 		minus.setVisible(false);
 		
 		hex.setWidth("50px");
-		range = new HTML5InputRange(0, 15, 0);
+		range = InputRangeWidget.createInputRange(0, 15, 0);
 		range.setWidth("160px");
 		range.addMouseUpHandler(new MouseUpHandler() {
 			@Override
@@ -217,7 +217,7 @@ public class ColorPickWidget extends Composite {
 @UiField VerticalPanel main,controls;
 @UiField HorizontalPanel control;
 
-private HTML5InputRange range;
+private InputRangeWidget range;
 
 private int gridSize;
 	
