@@ -31,4 +31,16 @@
       </any>
   </replace-with>
   
+   <replace-with class="com.akjava.gwt.html5.client.download.NullFileDownload">
+    <when-type-is class="com.akjava.gwt.html5.client.download.FileDownload"/>
+ </replace-with>
+
+
+  <replace-with class="com.akjava.gwt.html5.client.download.HTML5Download">
+    <when-type-is class="com.akjava.gwt.html5.client.download.FileDownload"/>
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+      </any>
+  </replace-with>
+  
 </module>

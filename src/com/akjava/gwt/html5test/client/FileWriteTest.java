@@ -1,5 +1,6 @@
 package com.akjava.gwt.html5test.client;
 
+import com.akjava.gwt.html5.client.download.FileDownloadBuilder;
 import com.akjava.gwt.html5.client.download.HTML5Download;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -28,9 +29,9 @@ public class FileWriteTest extends VerticalPanel{
 		add(img);
 		
 		GWT.log(getUserAgent());
+		Anchor filea=FileDownloadBuilder.createFileDownload().generateBase64DownloadLink(canvas.toDataUrl(), "image/png", "image.png", "Download Image vid File API", false);
 		
-		if(isChrome()){
-		Anchor filea=HTML5Download.generateBase64DownloadLink(canvas.toDataUrl(), "image/png", "image.png", "Download Image vid File API", false);
+		if(filea!=null){
 		add(filea);
 		}else{
 			add(new Label("use right click menu and save image."));
@@ -52,10 +53,14 @@ public class FileWriteTest extends VerticalPanel{
 		add(a);
 		
 		add(new Label("Download Text"));
-		if(isChrome() || isFirefox()){
-		Anchor texta=HTML5Download.generateTextDownloadLink("hello world", "hello.txt", "download text via File API");
+		
+		Anchor texta=FileDownloadBuilder.createFileDownload().generateTextDownloadLink("hello world", "hello.txt", "download text via File API");
+		if(texta!=null){
 		add(texta);
+		}else{
+			add(new Label("use copy and paste."));
 		}
+		
 		
 	}
 	
