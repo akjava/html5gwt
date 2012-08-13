@@ -28,6 +28,7 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 
 	public HTML5InputRange(){
 		range = new ElementInputRange();
+		
 		add((Widget) range);
 	}
 	
