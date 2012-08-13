@@ -35,6 +35,37 @@ private boolean enabled=true;
 		canvas.setCoordinateSpaceHeight(h);
 		canvas.setSize(w+"px", h+"px");
 	}
+	
+	
+	@Override
+	public void setSize(String width, String height) {
+		setWidth(width);
+		setHeight(height);
+	}
+	
+	@Override
+	public void setWidth(String width){
+		super.setWidth(width);
+		if(width.endsWith("px")){
+			try{
+				int w=Integer.parseInt(width.substring(0,width.length()-2));
+				setWidth(w);
+			}catch(Exception e){}
+		}
+	}
+	
+	@Override
+	public void setHeight(String height){
+		super.setHeight(height);
+		if(height.endsWith("px")){
+			try{
+				int h=Integer.parseInt(height.substring(0,height.length()-2));
+				setHeight(h);
+			}catch(Exception e){}
+		}
+	}
+	
+	
 	public CanvasInputRange(){
 		this(0,100,0);
 	}
@@ -305,6 +336,13 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 	@Override
 	public int getMax() {
 		return max;
+	}
+	@Override
+	public void setHeight(int height) {
+		this.height=height;
+		canvas.setWidth(height+"px");
+		canvas.setCoordinateSpaceWidth(height);
+		update(getValue());
 	}
 
 

@@ -9,6 +9,7 @@ public int getMax();
 public void setValue(int value);
 public int getValue();
 public void setWidth(int width);
+public void setHeight(int height);
 public void setEnabled(boolean bool);
 public  void addInputRangeListener(InputRangeListener listener);
 public  void removeInputRangeListener(InputRangeListener listener);

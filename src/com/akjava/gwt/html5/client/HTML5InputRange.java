@@ -15,6 +15,7 @@
  */
 package com.akjava.gwt.html5.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 public  class HTML5InputRange extends InputRangeWidget implements InputRange{
@@ -32,6 +33,41 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 		add((Widget) range);
 	}
 	
+	
+	
+	
+	@Override
+	public void setSize(String width, String height) {
+		setWidth(width);
+		setHeight(height);
+	}
+	
+	@Override
+	public void setWidth(String width){
+		
+		super.setWidth(width);
+		if(width.endsWith("px")){
+			try{
+				int w=Integer.parseInt(width.substring(0,width.length()-2));
+				range.setWidth(w);
+			}catch(Exception e){}
+		}
+	}
+	
+	@Override
+	public void setHeight(String height){
+		super.setHeight(height);
+		if(height.endsWith("px")){
+			try{
+				int h=Integer.parseInt(height.substring(0,height.length()-2));
+				range.setHeight(h);
+			}catch(Exception e){}
+		}
+	}
+
+
+
+
 	public int getValue(){
 		return range.getValue();
 	 }
@@ -78,6 +114,14 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 	@Override
 	public int getMax() {
 		return range.getMax();
+	}
+
+
+
+
+	@Override
+	public void setHeight(int height) {
+		range.setHeight(height);
 	}
 
 }
