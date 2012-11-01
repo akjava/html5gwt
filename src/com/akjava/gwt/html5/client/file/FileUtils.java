@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.akjava.gwt.html5.client.file.webkit.Item;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -66,6 +67,33 @@ public class FileUtils {
 					}
 				});
 				reader.readAsDataURL(files.get(0));
+				}
+				
+			}
+		});
+		return form;
+	}
+	
+	public static FileUploadForm createSingleTextFileUploadForm(final DataURLListener listener,final boolean reset){
+		final FileUploadForm form=new FileUploadForm();
+		//form.getFileUpload().add
+		form.getFileUpload().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				GWT.log("onChange:");
+				final FileReader reader=FileReader.createFileReader();
+				final JsArray<File> files=FileUtils.toFile(event.getNativeEvent());
+				if(files.length()>0){
+				reader.setOnLoad(new FileHandler() {
+					@Override
+					public void onLoad() {
+						listener.uploaded(files.get(0), reader.getResultAsString());
+						if(reset){
+							form.reset();
+						}
+					}
+				});
+				reader.readAsText(files.get(0),"UTF-8");
 				}
 				
 			}

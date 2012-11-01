@@ -153,7 +153,8 @@ public class HTML5Test implements EntryPoint {
 		
 		tab.add(new InputRangeTest(),"range");
 		tab.add(new FileWriteTest(),"download");
-		tab.selectTab(2);
+		tab.add(new FileSystemTest(),"fileSystem");
+		tab.selectTab(3);
 	}
 	
 	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){

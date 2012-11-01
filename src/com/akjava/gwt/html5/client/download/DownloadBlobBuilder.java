@@ -4,6 +4,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class DownloadBlobBuilder extends JavaScriptObject{
 
+	/**
+	 * TODO merge html5 file system
+	 * 
+	 * blobbuilder is deprecated
+	 * http://www.w3.org/TR/2012/WD-FileAPI-20120712/#blob
+	 */
 	protected DownloadBlobBuilder(){}
 	
 	public  native final void append(String text)/*-{

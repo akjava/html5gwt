@@ -1,6 +1,9 @@
 package com.akjava.gwt.html5.client.file.webkit;
 
 import com.akjava.gwt.html5.client.file.DirectoryReader;
+import com.akjava.gwt.html5.client.file.callback.CreateWriterCallback;
+import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
+import com.akjava.gwt.html5.client.file.callback.GetFileCallback;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class FileEntry extends JavaScriptObject{
@@ -45,6 +48,33 @@ public class FileEntry extends JavaScriptObject{
 	//for directory only
 	public  final native DirectoryReader getReader()/*-{
     return this.createReader();
+  	}-*/;
+	
+	public final native void getFile(String name,boolean create,boolean exclusive,GetFileCallback callback,FileErrorCallback errorCallback)/*-{
+    
+    var getfile=function(fileentry){
+    	callback.@com.akjava.gwt.html5.client.file.callback.GetFileCallback::getFileCallback(Lcom/akjava/gwt/html5/client/file/webkit/FileEntry;)(fileentry);
+    
+    }
+    
+    var error=function(fileerror){
+    	errorCallback.@com.akjava.gwt.html5.client.file.callback.FileErrorCallback::fileErrorCallback(Lcom/akjava/gwt/html5/client/file/FileError;)(fileerror);
+    }
+    
+    this.getFile(name,{create:create,exclusive:exclusive},getfile,error);
+  	}-*/;
+	
+public final native void createWriter(CreateWriterCallback writerCallback,FileErrorCallback errorCallback)/*-{
+    
+    var createWriter=function(filewriter){
+    	writerCallback.@com.akjava.gwt.html5.client.file.callback.CreateWriterCallback::createWriterCallback(Lcom/akjava/gwt/html5/client/file/FileWriter;)(filewriter);
+    }
+    
+    var error=function(fileerror){
+    	errorCallback.@com.akjava.gwt.html5.client.file.callback.FileErrorCallback::fileErrorCallback(Lcom/akjava/gwt/html5/client/file/FileError;)(fileerror);
+    }
+    
+    this.createWriter(createWriter,error);
   	}-*/;
 	
 }
