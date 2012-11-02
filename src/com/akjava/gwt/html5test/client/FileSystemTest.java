@@ -22,7 +22,7 @@ import com.akjava.gwt.html5.client.file.FileWriter;
 import com.akjava.gwt.html5.client.file.ProgressEvent;
 import com.akjava.gwt.html5.client.file.RequestFileSystem;
 import com.akjava.gwt.html5.client.file.RequestFileSystem.FileSystemCallback;
-import com.akjava.gwt.html5.client.file.callback.CreateWriterCallback;
+import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
 import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
 import com.akjava.gwt.html5.client.file.callback.ProgressEventCallback;
@@ -238,7 +238,7 @@ public class FileSystemTest  extends VerticalPanel{
 							@Override
 							public void fileEntryCallback(final FileEntry file) {
 								
-								file.createWriter(new CreateWriterCallback() {
+								file.createWriter(new FileWriterCallback() {
 									
 									@Override
 									public void createWriterCallback(FileWriter fileWriter) {
@@ -321,7 +321,7 @@ public class FileSystemTest  extends VerticalPanel{
 							@Override
 							public void fileEntryCallback(FileEntry file) {
 								
-								file.createWriter(new CreateWriterCallback() {
+								file.createWriter(new FileWriterCallback() {
 									
 									@Override
 									public void createWriterCallback(FileWriter fileWriter) {
@@ -661,7 +661,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 			@Override
 			public void fileEntryCallback(final FileEntry file) {
 				
-				file.createWriter(new CreateWriterCallback() {
+				file.createWriter(new FileWriterCallback() {
 					
 					@Override
 					public void createWriterCallback(FileWriter fileWriter) {

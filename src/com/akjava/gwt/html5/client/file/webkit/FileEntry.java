@@ -1,7 +1,7 @@
 package com.akjava.gwt.html5.client.file.webkit;
 
 import com.akjava.gwt.html5.client.file.DirectoryReader;
-import com.akjava.gwt.html5.client.file.callback.CreateWriterCallback;
+import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.VoidCallback;
 import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
 import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
@@ -107,10 +107,10 @@ public final native void remove(VoidCallback simpleCallback,FileErrorCallback er
     this.getDirectory(name,{create:create,exclusive:exclusive},getfile,error);
   	}-*/;
 	
-public final native void createWriter(CreateWriterCallback writerCallback,FileErrorCallback errorCallback)/*-{
+public final native void createWriter(FileWriterCallback writerCallback,FileErrorCallback errorCallback)/*-{
     
     var createWriter=function(filewriter){
-    	writerCallback.@com.akjava.gwt.html5.client.file.callback.CreateWriterCallback::createWriterCallback(Lcom/akjava/gwt/html5/client/file/FileWriter;)(filewriter);
+    	writerCallback.@com.akjava.gwt.html5.client.file.callback.FileWriterCallback::createWriterCallback(Lcom/akjava/gwt/html5/client/file/FileWriter;)(filewriter);
     }
     
     var error=function(fileerror){

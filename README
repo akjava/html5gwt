@@ -1,7 +1,9 @@
 something html5 like widget.
 
 File API - support readAsText(),readAsDataURl(),readAsArrayBuffer(), this works Chrome & Firefox 12,not works any IE yet
-File Download API,this works only Chrome
+File System & Writer API works only Chrome(not released yet)
+
+
 Range Widget,this works only Chrome
 color pick - not html5
 ----
