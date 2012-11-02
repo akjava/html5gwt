@@ -37,6 +37,7 @@ public class DownloadBlobBuilder extends JavaScriptObject{
   this.append(uInt8Array.buffer);	
   }-*/;
 	
+	//TODO create Blob class
 	public  native final JavaScriptObject getBlob(String mimeType)/*-{
 	return this.getBlob(mimeType);
 	}-*/;

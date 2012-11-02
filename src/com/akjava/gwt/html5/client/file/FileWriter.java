@@ -30,6 +30,17 @@ public class FileWriter extends JavaScriptObject {
     this.write(blob);
 	}-*/;
 	
+	public final long getLength(){
+		return (long)length();
+	}
+	
+	public  final native void seek(double value)/*-{
+    return this.seek(value);
+	}-*/;
+	
+	public  final native double length()/*-{
+    return this.length;
+	}-*/;
 	
 	public  final native void setOnWriteEnd(ProgressEventCallback callback)/*-{
     this.onwriteend = function(e) {//ProgressEvent

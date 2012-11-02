@@ -2,8 +2,9 @@ package com.akjava.gwt.html5.client.file.webkit;
 
 import com.akjava.gwt.html5.client.file.DirectoryReader;
 import com.akjava.gwt.html5.client.file.callback.CreateWriterCallback;
+import com.akjava.gwt.html5.client.file.callback.VoidCallback;
 import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
-import com.akjava.gwt.html5.client.file.callback.GetFileCallback;
+import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class FileEntry extends JavaScriptObject{
@@ -50,10 +51,38 @@ public class FileEntry extends JavaScriptObject{
     return this.createReader();
   	}-*/;
 	
-	public final native void getFile(String name,boolean create,boolean exclusive,GetFileCallback callback,FileErrorCallback errorCallback)/*-{
+	//TODO implement copyTo,moveTo
+
+	//TODO implement resolveLocalFileSystemURL 
+	
+	public  final native String toURL()/*-{
+    return this.toURL();
+  	}-*/;
+	
+	
+	
+	
+public final native void remove(VoidCallback simpleCallback,FileErrorCallback errorCallback)/*-{
+    
+    var callback=function(){
+    	simpleCallback.@com.akjava.gwt.html5.client.file.callback.VoidCallback::callback()();
+    }
+    
+     var error=function(fileerror){
+    	errorCallback.@com.akjava.gwt.html5.client.file.callback.FileErrorCallback::fileErrorCallback(Lcom/akjava/gwt/html5/client/file/FileError;)(fileerror);
+    }
+    
+    this.remove(callback,error);
+  	}-*/;
+//TODO implement  removeRecursively()
+	
+//TODO implement copyTo,moveTo;
+
+	
+	public final native void getFile(String name,boolean create,boolean exclusive,FileEntryCallback callback,FileErrorCallback errorCallback)/*-{
     
     var getfile=function(fileentry){
-    	callback.@com.akjava.gwt.html5.client.file.callback.GetFileCallback::getFileCallback(Lcom/akjava/gwt/html5/client/file/webkit/FileEntry;)(fileentry);
+    	callback.@com.akjava.gwt.html5.client.file.callback.FileEntryCallback::fileEntryCallback(Lcom/akjava/gwt/html5/client/file/webkit/FileEntry;)(fileentry);
     
     }
     
@@ -62,6 +91,20 @@ public class FileEntry extends JavaScriptObject{
     }
     
     this.getFile(name,{create:create,exclusive:exclusive},getfile,error);
+  	}-*/;
+	
+	public final native void getDirectory(String name,boolean create,boolean exclusive,FileEntryCallback callback,FileErrorCallback errorCallback)/*-{
+    
+    var getfile=function(fileentry){
+    	callback.@com.akjava.gwt.html5.client.file.callback.FileEntryCallback::fileEntryCallback(Lcom/akjava/gwt/html5/client/file/webkit/FileEntry;)(fileentry);
+    
+    }
+    
+    var error=function(fileerror){
+    	errorCallback.@com.akjava.gwt.html5.client.file.callback.FileErrorCallback::fileErrorCallback(Lcom/akjava/gwt/html5/client/file/FileError;)(fileerror);
+    }
+    
+    this.getDirectory(name,{create:create,exclusive:exclusive},getfile,error);
   	}-*/;
 	
 public final native void createWriter(CreateWriterCallback writerCallback,FileErrorCallback errorCallback)/*-{
