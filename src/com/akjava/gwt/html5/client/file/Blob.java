@@ -15,8 +15,6 @@ public class Blob extends JavaScriptObject{
 	return createBlob(arrays,type);
 	}
 	
-
-
 	public  static final native Blob createBlob(String text,String type)/*-{
     return new $wnd.Blob([text],{type:type});
   	}-*/;
