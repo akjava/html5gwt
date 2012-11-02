@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.akjava.gwt.html5.client.download.DownloadBlobBuilder;
-import com.akjava.gwt.html5.client.download.HTML5Download;
 import com.akjava.gwt.html5.client.file.Blob;
 import com.akjava.gwt.html5.client.file.DirectoryReader;
 import com.akjava.gwt.html5.client.file.File;
@@ -35,7 +33,6 @@ import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.RequestQuotaCal
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.StorageInfoUsageCallback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;

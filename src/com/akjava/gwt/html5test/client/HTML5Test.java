@@ -1,14 +1,11 @@
 package com.akjava.gwt.html5test.client;
 
-import mx4j.log.Log;
-
 import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileUtils;
 import com.akjava.gwt.html5.client.file.Unit8Array;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
-import com.akjava.gwt.html5.client.file.webkit.FileCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
@@ -35,9 +32,9 @@ public class HTML5Test implements EntryPoint {
 		RootPanel.get().add(tab);
 		
 		VerticalPanel root = new VerticalPanel();
-		tab.add(root,"upload");
+		tab.add(root,"File upload");
 
-		root.add(new Label("simple"));
+		root.add(new Label("simple file upload,drop a text file here"));
 		final TextArea area = new TextArea();
 		area.setSize("400px", "200px");
 
@@ -105,7 +102,7 @@ public class HTML5Test implements EntryPoint {
 		});
 		root.add(area);
 
-		root.add(new Label("chrome folder support"));
+		root.add(new Label("chrome folder support,drop multiple file here"));
 		final TextArea area2 = new TextArea();
 		area2.setSize("400px", "200px");
 
@@ -151,9 +148,9 @@ public class HTML5Test implements EntryPoint {
 		});
 		root.add(area2);
 		
-		tab.add(new InputRangeTest(),"range");
-		tab.add(new FileWriteTest(),"download");
-		tab.add(new FileSystemTest(),"fileSystem");
+		tab.add(new InputRangeTest(),"Input Range");
+		tab.add(new FileWriteTest(),"File Download");
+		tab.add(new FileSystemTest(),"File System");
 		tab.selectTab(3);
 	}
 	
