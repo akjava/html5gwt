@@ -1,5 +1,6 @@
 package com.akjava.gwt.html5.client.download;
 
+import com.akjava.gwt.html5.client.file.Blob;
 import com.google.gwt.user.client.ui.Anchor;
 
 public class NullFileDownload implements FileDownload{
@@ -9,10 +10,7 @@ public class NullFileDownload implements FileDownload{
 		return null;
 	}
 
-	@Override
-	public DownloadBlobBuilder BlobBuilder() {
-		return null;
-	}
+	
 
 	@Override
 	public Anchor generateTextDownloadLink(String text, String fileName,
@@ -33,9 +31,12 @@ public class NullFileDownload implements FileDownload{
 	}
 
 	@Override
-	public Anchor generateDownloadLink(DownloadBlobBuilder blob,
-			String mimeType, String fileName, String anchorText) {
+	public Anchor generateDownloadLink(Blob blob, String mimeType,
+			String fileName, String anchorText) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

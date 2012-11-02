@@ -2,6 +2,11 @@ package com.akjava.gwt.html5.client.download;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ * @deprecated
+ * @author aki
+ *
+ */
 public class DownloadBlobBuilder extends JavaScriptObject{
 
 	/**
@@ -11,6 +16,7 @@ public class DownloadBlobBuilder extends JavaScriptObject{
 	 * http://www.w3.org/TR/2012/WD-FileAPI-20120712/#blob
 	 */
 	protected DownloadBlobBuilder(){}
+	
 	
 	public  native final void append(String text)/*-{
 	this.append(text);

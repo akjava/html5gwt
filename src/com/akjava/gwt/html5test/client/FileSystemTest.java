@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.akjava.gwt.html5.client.download.DownloadBlobBuilder;
 import com.akjava.gwt.html5.client.download.HTML5Download;
+import com.akjava.gwt.html5.client.file.Blob;
 import com.akjava.gwt.html5.client.file.DirectoryReader;
 import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileError;
@@ -22,9 +22,9 @@ import com.akjava.gwt.html5.client.file.FileWriter;
 import com.akjava.gwt.html5.client.file.ProgressEvent;
 import com.akjava.gwt.html5.client.file.RequestFileSystem;
 import com.akjava.gwt.html5.client.file.RequestFileSystem.FileSystemCallback;
-import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
 import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
+import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.ProgressEventCallback;
 import com.akjava.gwt.html5.client.file.callback.VoidCallback;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
@@ -35,6 +35,7 @@ import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.RequestQuotaCal
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.StorageInfoUsageCallback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
@@ -343,9 +344,8 @@ public class FileSystemTest  extends VerticalPanel{
 										});
 										
 										
-										DownloadBlobBuilder blobBuilder=new HTML5Download().BlobBuilder();
-										blobBuilder.append("hello world");
-										fileWriter.write(blobBuilder.getBlob("text/plain"));
+										
+										fileWriter.write(Blob.createBlob("hello world"));
 										
 									}
 								}, errorCallback);
@@ -539,10 +539,18 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 		}
 		
 		//create blob
+		
+		
+		
+		/*
 		DownloadBlobBuilder blobBuilder=new HTML5Download().BlobBuilder();
 		blobBuilder.append("hello world");
 		final JavaScriptObject blob=blobBuilder.getBlob("text/plain");
+		*/
+		JsArrayString array=(JsArrayString) JsArrayString.createArray();
+		array.push("hello world");
 		
+		final JavaScriptObject blob=Blob.createBlob("hello js", "text/plain");
 		
 		final FileEntryCallback onwriteend=new FileEntryCallback() {
 			@Override
@@ -579,8 +587,8 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 				@Override
 				public void fileSystemCallback(FileSystem fileSystem) {
 					
-					
-					writeFile(fileSystem.getRoot(),"hello.txt",true,false,blob,onwriteend,onerror,errorCallback);
+					//how to overwrite?
+					writeFile(fileSystem.getRoot(),"hello.txt",true,true,blob,onwriteend,onerror,errorCallback);
 					
 					
 				}
