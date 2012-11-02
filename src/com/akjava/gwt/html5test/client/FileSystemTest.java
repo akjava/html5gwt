@@ -365,6 +365,7 @@ public class FileSystemTest  extends VerticalPanel{
 	private SingleSelectionModel<FileEntry> selectionModel;
 	private Handler selectionChangeHandler;
 	private FileEntry currentSelectionFileEntry;
+	private TextArea previewTextArea;
 	private void createListButton(final Panel panel){
 		HorizontalPanel requestButtons=new HorizontalPanel();
 		panel.add(requestButtons);
@@ -376,7 +377,7 @@ public class FileSystemTest  extends VerticalPanel{
 		final Label label=new Label();
 		label.setWidth("80px");
 		
-		final TextArea textArea=new TextArea();
+		previewTextArea = new TextArea();
 		
 		final FileErrorCallback errorCallback=new FileErrorCallback(){
 
@@ -409,7 +410,7 @@ public class FileSystemTest  extends VerticalPanel{
 							reader.setOnLoad(new FileHandler() {
 								@Override
 								public void onLoad() {
-									textArea.setValue(reader.getResultAsString());
+									previewTextArea.setValue(reader.getResultAsString());
 								}
 							});
 							reader.readAsText(file, "UTF-8");
@@ -552,7 +553,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 			}
 		};
 		
-		if(entry==null){
+		if(entry==null || entry.isFile()){
 			
 			int type=RequestFileSystem.TEMPORARY;
 			if(check.getValue()){
@@ -567,7 +568,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 				public void fileSystemCallback(FileSystem fileSystem) {
 					
 					//how to overwrite?
-					writeFile(fileSystem.getRoot(),"hello.txt",true,false,blob,onwriteend,onerror,errorCallback);
+					writeFile(fileSystem.getRoot(),"hello.txt",true,false,blob,false,onwriteend,onerror,errorCallback);
 					
 					
 				}
@@ -577,7 +578,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 			
 			
 		}else{
-			writeFile(entry,"hello.txt",true,false,blob,onwriteend,onerror,errorCallback);
+			writeFile(entry,"hello.txt",true,false,blob,false,onwriteend,onerror,errorCallback);
 		}
 		
 	}
@@ -588,7 +589,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 		requestButtons.add(removeButton);
 		requestButtons.add(mkdirButton);
 		requestButtons.add(writeButton);
-		add(textArea);
+		add(previewTextArea);
 	}
 	
 	protected FileEntry getCurrentSelection() {
@@ -635,6 +636,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 		 entries.addAll(fileEntryList.values());
 		 cellList.setRowData(0, entries);
 		 
+		 previewTextArea.setText("");
 		 /*
 		 selectionModel=new SingleSelectionModel<FileEntry>();
 		 selectionModel.addSelectionChangeHandler(selectionChangeHandler);
@@ -642,7 +644,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 		*/
 	}
 	
-	private void writeFile(FileEntry parent,String name,boolean create,boolean exclusive,final JavaScriptObject blob,final FileEntryCallback onwriteend,final FileEntryCallback onerror,final FileErrorCallback errorCallback){
+	private void writeFile(FileEntry parent,String name,boolean create,boolean exclusive,final JavaScriptObject blob,final boolean append,final FileEntryCallback onwriteend,final FileEntryCallback onerror,final FileErrorCallback errorCallback){
 		parent.getFile(name,create,exclusive, new FileEntryCallback(){
 
 			@Override
@@ -663,7 +665,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 						});//maybe should remove it
 						
 						
-						if(fileWriter.length()>0){
+						if(fileWriter.length()>0 &&!append){
 							fileWriter.setOnWriteEnd(new ProgressEventCallback() {
 								@Override
 								public void progressEventCallback(ProgressEvent progressEvent) {
@@ -678,6 +680,9 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 								}
 							});
 							HTML5Test.log("truncated");
+							
+							
+							
 							fileWriter.truncate(0);//TODO blob support length	
 						}else{
 							HTML5Test.log("empty ust write");
@@ -688,6 +693,9 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 									onwriteend.fileEntryCallback(file);
 								}
 							});
+							if(fileWriter.length()>0){
+								fileWriter.seek(fileWriter.length());
+							}
 							fileWriter.write(blob);
 						}
 						

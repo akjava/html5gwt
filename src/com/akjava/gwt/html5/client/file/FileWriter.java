@@ -37,7 +37,7 @@ public class FileWriter extends JavaScriptObject {
 	
 
 	public  final native void truncate(double length)/*-{
-    this.truncate(1);
+    this.truncate(length);
 	}-*/;
 
 	
