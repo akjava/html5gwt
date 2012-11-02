@@ -11,6 +11,9 @@ import com.akjava.gwt.html5.client.file.DirectoryReader;
 import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileError;
 import com.akjava.gwt.html5.client.file.FileHandler;
+import com.akjava.gwt.html5.client.file.FileIOUtils;
+import com.akjava.gwt.html5.client.file.FileIOUtils.ReadStringCallback;
+import com.akjava.gwt.html5.client.file.FileIOUtils.WriteCallback;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileSystem;
 import com.akjava.gwt.html5.client.file.FileUploadForm;
@@ -62,6 +65,56 @@ public class FileSystemTest  extends VerticalPanel{
 		
 		createListButton(this);
 		
+		
+		
+		
+		createFileIOButton(this);
+	}
+	
+	private void createFileIOButton(Panel panel){
+		HorizontalPanel requestButtons=new HorizontalPanel();
+		panel.add(requestButtons);
+		
+		Button write=new Button("write",new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileIOUtils.writeFile("dir/a.txt", true, "fileio", new WriteCallback() {
+					
+					@Override
+					public void onError(String message, Object option) {
+						HTML5Test.log("error:"+message);
+					}
+					
+					@Override
+					public void onWriteEnd(FileEntry file) {
+						HTML5Test.log("write done:"+file.getFullPath());
+					}
+				}, false);
+			}
+		});
+		requestButtons.add(write);
+		
+		Button read=new Button("read",new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileIOUtils.readFileAsString("dir/a.txt", true,  new ReadStringCallback() {
+					
+					@Override
+					public void onError(String message, Object option) {
+						HTML5Test.log("error:"+message);
+					}
+
+					@Override
+					public void onReadString(String text, FileEntry file) {
+						HTML5Test.log("read done:"+file.getFullPath());
+						previewTextArea.setText(text);
+					}
+					
+					
+				});
+			}
+		});
+		requestButtons.add(read);
 	}
 	
 	private void createSimpleButton(Panel panel){
@@ -87,7 +140,6 @@ public class FileSystemTest  extends VerticalPanel{
 					@Override
 					public void fileSystemCallback(FileSystem fileSystem) {
 						label.setText("[file]"+fileSystem.getName());
-						HTML5Test.log(fileSystem);
 						
 					}
 				}
@@ -162,15 +214,15 @@ public class FileSystemTest  extends VerticalPanel{
 				
 				WebkitStorageInfo.requestQuota(type, 10, new RequestQuotaCallback() {
 					@Override
-					public void requestQuotaCallback(int grantedBytes) {
-						final int size=grantedBytes;
+					public void requestQuotaCallback(double grantedBytes) {
+						final long size=(long) grantedBytes;
 						
 						RequestFileSystem.requestFileSystem(type,size,new FileSystemCallback() {
 							
 							@Override
 							public void fileSystemCallback(FileSystem fileSystem) {
 								label.setText("[file]"+fileSystem.getName()+" size="+size);
-								HTML5Test.log(fileSystem);
+								
 							}
 						}
 						,
@@ -398,7 +450,7 @@ public class FileSystemTest  extends VerticalPanel{
 				public void onSelectionChange(SelectionChangeEvent event) {
 					
 					FileEntry fileEntry=selectionModel.getSelectedObject();
-					HTML5Test.log(fileEntry.getFullPath());
+					HTML5Test.log("selection-changed:"+fileEntry.getFullPath());
 					
 					currentSelectionFileEntry=fileEntry;
 					
@@ -449,7 +501,7 @@ public class FileSystemTest  extends VerticalPanel{
 									
 								}
 								
-								 
+								 updateCellList();
 							}
 						});
 						

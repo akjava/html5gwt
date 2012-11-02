@@ -17,11 +17,11 @@ public class WebkitStorageInfo {
 	
 	
 	
-	public  static final native void requestQuota(int type,int size,RequestQuotaCallback requestQuotaCallback)/*-{
+	public  static final native void requestQuota(int type,double size,RequestQuotaCallback requestQuotaCallback)/*-{
     
    
     var quotaCallback=function(callback){
-    	requestQuotaCallback.@com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo$RequestQuotaCallback::requestQuotaCallback(I)(callback);
+    	requestQuotaCallback.@com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo$RequestQuotaCallback::requestQuotaCallback(D)(callback);
     };
     
     
@@ -43,7 +43,7 @@ public class WebkitStorageInfo {
     }-*/;
 	
 	public static interface RequestQuotaCallback{
-		public void requestQuotaCallback(int grantedBytes);
+		public void requestQuotaCallback(double grantedBytes);
 	}
 	
 	public static interface StorageInfoUsageCallback {

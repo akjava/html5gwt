@@ -12,7 +12,7 @@ window.requestFileSystem(type, size, successCallback, opt_errorCallback)
 	public static final int TEMPORARY=0;
 	public static final int PERSISTENT=1;
 	
-	public  static final native void requestFileSystem(int type,int size,FileSystemCallback successCallback,FileErrorCallback errorCallback)/*-{
+	public  static final native void requestFileSystem(int type,double size,FileSystemCallback successCallback,FileErrorCallback errorCallback)/*-{
     
     $wnd.requestFileSystem  = $wnd.requestFileSystem || $wnd.webkitRequestFileSystem;
     console.log($wnd.requestFileSystem);
