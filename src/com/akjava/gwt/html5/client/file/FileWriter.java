@@ -34,6 +34,13 @@ public class FileWriter extends JavaScriptObject {
 		return (long)length();
 	}
 	
+	
+
+	public  final native void truncate(double length)/*-{
+    this.truncate(1);
+	}-*/;
+
+	
 	public  final native void seek(double value)/*-{
     return this.seek(value);
 	}-*/;

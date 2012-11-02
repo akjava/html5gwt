@@ -65,11 +65,6 @@ public class FileSystemTest  extends VerticalPanel{
 		
 		createListButton(this);
 		
-		final FileErrorCallback errorCallback=new FileErrorCallback(){
-			@Override
-			public void fileErrorCallback(FileError fileError) {
-				HTML5Test.log(fileError);
-			}};
 	}
 	
 	private void createSimpleButton(Panel panel){
@@ -345,7 +340,7 @@ public class FileSystemTest  extends VerticalPanel{
 										
 										
 										
-										fileWriter.write(Blob.createBlob("hello world"));
+										fileWriter.write(Blob.createBlob("hello world hello world"));
 										
 									}
 								}, errorCallback);
@@ -534,23 +529,9 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 	public void onClick(ClickEvent event) {
 		FileEntry entry=getCurrentSelection();
 		
-		if(entry!=null && entry.isFile()){
-			return;
-		}
+	
 		
-		//create blob
-		
-		
-		
-		/*
-		DownloadBlobBuilder blobBuilder=new HTML5Download().BlobBuilder();
-		blobBuilder.append("hello world");
-		final JavaScriptObject blob=blobBuilder.getBlob("text/plain");
-		*/
-		JsArrayString array=(JsArrayString) JsArrayString.createArray();
-		array.push("hello world");
-		
-		final JavaScriptObject blob=Blob.createBlob("hello js", "text/plain");
+		final JavaScriptObject blob=Blob.createBlob("hello world", "text/plain");
 		
 		final FileEntryCallback onwriteend=new FileEntryCallback() {
 			@Override
@@ -575,6 +556,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 		};
 		
 		if(entry==null){
+			
 			int type=RequestFileSystem.TEMPORARY;
 			if(check.getValue()){
 				type=RequestFileSystem.PERSISTENT;
@@ -588,7 +570,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 				public void fileSystemCallback(FileSystem fileSystem) {
 					
 					//how to overwrite?
-					writeFile(fileSystem.getRoot(),"hello.txt",true,true,blob,onwriteend,onerror,errorCallback);
+					writeFile(fileSystem.getRoot(),"hello.txt",true,false,blob,onwriteend,onerror,errorCallback);
 					
 					
 				}
@@ -672,7 +654,8 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 				file.createWriter(new FileWriterCallback() {
 					
 					@Override
-					public void createWriterCallback(FileWriter fileWriter) {
+					public void createWriterCallback(final FileWriter fileWriter) {
+						
 						
 						fileWriter.setOnError(new ProgressEventCallback() {
 							
@@ -682,16 +665,34 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 							}
 						});//maybe should remove it
 						
-						fileWriter.setOnWriteEnd(new ProgressEventCallback() {
-							
-							@Override
-							public void progressEventCallback(ProgressEvent progressEvent) {
-								onwriteend.fileEntryCallback(file);
-							}
-						});
 						
-						fileWriter.write(blob);
-					
+						if(fileWriter.length()>0){
+							fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+								@Override
+								public void progressEventCallback(ProgressEvent progressEvent) {
+									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+										@Override
+										public void progressEventCallback(ProgressEvent progressEvent) {
+
+											onwriteend.fileEntryCallback(file);
+										}
+									});
+									fileWriter.write(blob);
+								}
+							});
+							HTML5Test.log("truncated");
+							fileWriter.truncate(0);//TODO blob support length	
+						}else{
+							HTML5Test.log("empty ust write");
+							fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+								@Override
+								public void progressEventCallback(ProgressEvent progressEvent) {
+
+									onwriteend.fileEntryCallback(file);
+								}
+							});
+							fileWriter.write(blob);
+						}
 						
 					}
 				}, errorCallback);
