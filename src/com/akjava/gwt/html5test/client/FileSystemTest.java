@@ -12,7 +12,10 @@ import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileError;
 import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileIOUtils;
+import com.akjava.gwt.html5.client.file.FileIOUtils.GetFileSystemListener;
+import com.akjava.gwt.html5.client.file.FileIOUtils.MakeDirectoryCallback;
 import com.akjava.gwt.html5.client.file.FileIOUtils.ReadStringCallback;
+import com.akjava.gwt.html5.client.file.FileIOUtils.RequestPersitentFileQuotaListener;
 import com.akjava.gwt.html5.client.file.FileIOUtils.WriteCallback;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileSystem;
@@ -72,8 +75,88 @@ public class FileSystemTest  extends VerticalPanel{
 	}
 	
 	private void createFileIOButton(Panel panel){
+		VerticalPanel main=new VerticalPanel();
+		
 		HorizontalPanel requestButtons=new HorizontalPanel();
-		panel.add(requestButtons);
+		panel.add(main);
+		main.add(requestButtons);
+		final Label label=new Label();
+		main.add(label);
+		requestButtons.add(new Label("FileIOUtils Test"));
+		Button request=new Button("request",new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileIOUtils.requestPersitentFileQuota(1000, new RequestPersitentFileQuotaListener() {
+					
+					@Override
+					public void onError(String message, Object option) {
+						HTML5Test.log("error:"+message);
+						if(option instanceof FileError){
+							int code=((FileError)option).getCode();
+							label.setText("error:"+FileIOUtils.getErrorCodeValue(code));
+						}
+					}
+					
+					@Override
+					public void onAccepted(FileSystem fileSystem, double acceptedSize) {
+						label.setText("accepted:"+acceptedSize);
+						
+					}
+				});
+			}
+		});
+		requestButtons.add(request);
+		
+		
+		Button getRoot=new Button("getRoot",new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileIOUtils.getFileSystem(true, new GetFileSystemListener() {
+					
+					@Override
+					public void onError(String message, Object option) {
+						HTML5Test.log("error:"+message);
+						if(option instanceof FileError){
+							int code=((FileError)option).getCode();
+							label.setText("error:"+FileIOUtils.getErrorCodeValue(code));
+						}
+					}
+					
+					@Override
+					public void onGetFileSystem(FileSystem fileSystem) {
+						label.setText("getRoot done:"+fileSystem.getRoot().getFullPath());
+					}
+				});
+			}
+		});
+		requestButtons.add(getRoot);
+		
+		Button mkdir=new Button("mkdir",new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				FileIOUtils.makeDirectory(true, "dir", new MakeDirectoryCallback() {
+					
+					@Override
+					public void onError(String message, Object option) {
+						HTML5Test.log("error:"+message);
+						if(option instanceof FileError){
+							int code=((FileError)option).getCode();
+							label.setText("error:"+FileIOUtils.getErrorCodeValue(code));
+						}
+					}
+					
+					@Override
+					public void onMakeDirectory(FileEntry file) {
+						label.setText("make done:"+file.getFullPath());
+					}
+				});
+			}
+		});
+		requestButtons.add(mkdir);
+		
+		
+		
+		
 		
 		Button write=new Button("write",new ClickHandler() {
 			@Override
@@ -83,11 +166,15 @@ public class FileSystemTest  extends VerticalPanel{
 					@Override
 					public void onError(String message, Object option) {
 						HTML5Test.log("error:"+message);
+						if(option instanceof FileError){
+							int code=((FileError)option).getCode();
+							label.setText("error:"+FileIOUtils.getErrorCodeValue(code));
+						}
 					}
 					
 					@Override
 					public void onWriteEnd(FileEntry file) {
-						HTML5Test.log("write done:"+file.getFullPath());
+						label.setText("write done:"+file.getFullPath());
 					}
 				}, false);
 			}
@@ -102,11 +189,15 @@ public class FileSystemTest  extends VerticalPanel{
 					@Override
 					public void onError(String message, Object option) {
 						HTML5Test.log("error:"+message);
+						if(option instanceof FileError){
+							int code=((FileError)option).getCode();
+							label.setText("error:"+FileIOUtils.getErrorCodeValue(code));
+						}
 					}
 
 					@Override
 					public void onReadString(String text, FileEntry file) {
-						HTML5Test.log("read done:"+file.getFullPath());
+						label.setText("read done:"+file.getFullPath());
 						previewTextArea.setText(text);
 					}
 					
@@ -115,6 +206,7 @@ public class FileSystemTest  extends VerticalPanel{
 			}
 		});
 		requestButtons.add(read);
+
 	}
 	
 	private void createSimpleButton(Panel panel){
@@ -148,8 +240,8 @@ public class FileSystemTest  extends VerticalPanel{
 
 					@Override
 					public void fileErrorCallback(FileError fileError) {
-						label.setText("[error]"+fileError.getCode());
-						HTML5Test.log(fileError);
+						label.setText("[error]"+fileError.getCode()+" "+FileIOUtils.getErrorCodeValue(fileError.getCode()));
+						
 					}});
 			}
 		});
@@ -231,7 +323,8 @@ public class FileSystemTest  extends VerticalPanel{
 							@Override
 							public void fileErrorCallback(FileError fileError) {
 								label.setText("[error]"+fileError.getCode());
-								HTML5Test.log(fileError);
+								label.setText("[error]"+fileError.getCode()+" "+FileIOUtils.getErrorCodeValue(fileError.getCode()));
+								
 							}});
 					}
 				});
@@ -262,7 +355,8 @@ public class FileSystemTest  extends VerticalPanel{
 			@Override
 			public void fileErrorCallback(FileError fileError) {
 				label.setText("[error]"+fileError.getCode());
-				HTML5Test.log(fileError);
+				label.setText("[error]"+fileError.getCode()+" "+FileIOUtils.getErrorCodeValue(fileError.getCode()));
+				
 			}};
 			
 		FileUploadForm form=FileUtils.createSingleFileUploadForm(new DataURLListener(){
@@ -346,7 +440,8 @@ public class FileSystemTest  extends VerticalPanel{
 			@Override
 			public void fileErrorCallback(FileError fileError) {
 				label.setText("[error]"+fileError.getCode());
-				HTML5Test.log(fileError);
+				label.setText("[error]"+fileError.getCode()+" "+FileIOUtils.getErrorCodeValue(fileError.getCode()));
+				
 			}};
 		Button simpleRequest=new Button("Write",new ClickHandler() {
 			
@@ -419,15 +514,17 @@ public class FileSystemTest  extends VerticalPanel{
 	private FileEntry currentSelectionFileEntry;
 	private TextArea previewTextArea;
 	private void createListButton(final Panel panel){
-		HorizontalPanel requestButtons=new HorizontalPanel();
-		panel.add(requestButtons);
 		
+		VerticalPanel main=new VerticalPanel();
+		HorizontalPanel requestButtons=new HorizontalPanel();
+		panel.add(main);
+		main.add(requestButtons);
 		requestButtons.add(new Label("File List"));
 		
 		final CheckBox check=new CheckBox("PERSISTENT");
 		requestButtons.add(check);
 		final Label label=new Label();
-		label.setWidth("80px");
+		main.add(label);
 		
 		previewTextArea = new TextArea();
 		
@@ -435,12 +532,14 @@ public class FileSystemTest  extends VerticalPanel{
 
 			@Override
 			public void fileErrorCallback(FileError fileError) {
-				label.setText("[error]"+fileError.getCode());
-				HTML5Test.log(fileError);
+				label.setText("[error]"+fileError.getCode()+" "+FileIOUtils.getErrorCodeValue(fileError.getCode()));
+				
+				
 			}};
 			
 			FileEntryCell cell=new FileEntryCell();
 			cellList = new CellList<FileEntry>(cell);
+			cellList.setStylePrimaryName("table");
 			panel.add(cellList);
 			
 			selectionModel = new SingleSelectionModel<FileEntry>();
@@ -637,7 +736,7 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 });
 		
 		requestButtons.add(simpleRequest);
-		requestButtons.add(label);
+		
 		requestButtons.add(removeButton);
 		requestButtons.add(mkdirButton);
 		requestButtons.add(writeButton);

@@ -83,6 +83,49 @@ private FileIOUtils(){}
 	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append){
 		writeFile(persitent,path,text,callback,append,"UTF-8");
 	}
+	
+	public static String getErrorCodeValue(int code){
+		String value=""+code;
+		switch(code){
+		case 1:
+			value="NOT_FOUND_ERR";
+			break;
+		case 2:
+			value="SECURITY_ERR";
+			break;
+		case 3:
+			value="ABORT_ERR";
+			break;
+		case 4:
+			value="NOT_READABLE_ERR";
+			break;
+		case 5:
+			value="ENCODING_ERR";
+			break;
+		case 6:
+			value="NO_MODIFICATION_ALLOWED_ERR";
+			break;
+		case 7:
+			value="INVALID_STATE_ERR";
+			break;
+		case 8:
+			value="SYNTAX_ERR";
+			break;
+		case 9:
+			value="INVALID_MODIFICATION_ERR";
+			break;
+		case 10:
+			value="QUOTA_EXCEEDED_ERR";
+			break;
+		case 11:
+			value="TYPE_MISMATCH_ERR";
+			break;
+		case 12:
+			value="PATH_EXISTS_ERR";
+			break;	
+		}
+		return value;
+	}
 	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append,final String encoding){
 		final String mimeType="text/plain;charset="+encoding;
 		int type=RequestFileSystem.TEMPORARY;
@@ -128,13 +171,13 @@ private FileIOUtils(){}
 											fileWriter.write(blob);
 										}
 									});
-									HTML5Test.log("truncated");
+									
 									
 									
 									
 									fileWriter.truncate(0);//FUTURE blob support length	
 								}else{
-									HTML5Test.log("empty ust write");
+									
 									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
 										@Override
 										public void progressEventCallback(ProgressEvent progressEvent) {
@@ -186,7 +229,8 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 	if(persitent){
 		type=RequestFileSystem.PERSISTENT;
 	}
-		WebkitStorageInfo.requestQuota(type, 0, new RequestQuotaCallback(){
+	//use 1 for detect not granted
+		WebkitStorageInfo.requestQuota(type, 1, new RequestQuotaCallback(){
 			@Override
 			public void requestQuotaCallback(final double grantedBytes) {
 				
