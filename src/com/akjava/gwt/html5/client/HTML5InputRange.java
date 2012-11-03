@@ -15,7 +15,6 @@
  */
 package com.akjava.gwt.html5.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 public  class HTML5InputRange extends InputRangeWidget implements InputRange{

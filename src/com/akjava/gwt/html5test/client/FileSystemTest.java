@@ -78,7 +78,7 @@ public class FileSystemTest  extends VerticalPanel{
 		Button write=new Button("write",new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				FileIOUtils.writeFile("dir/a.txt", true, "fileio", new WriteCallback() {
+				FileIOUtils.writeFile(true, "dir/a.txt", "fileio", new WriteCallback() {
 					
 					@Override
 					public void onError(String message, Object option) {

@@ -18,6 +18,11 @@ private FileIOUtils(){}
 
 	public static void readFileAsString(final String path,boolean persitent,final ReadStringCallback callback){
 		final String encoding="UTF8";
+		readFileAsString(path,persitent,callback,encoding);
+	}
+		
+		public static void readFileAsString(final String path,boolean persitent,final ReadStringCallback callback,final String encoding){
+		
 		int type=RequestFileSystem.TEMPORARY;
 		if(persitent){
 			type=RequestFileSystem.PERSISTENT;
@@ -53,8 +58,33 @@ private FileIOUtils(){}
 		);
 	}
 	
-	public static void writeFile(final String path,boolean persitent,final String text,final WriteCallback callback,final boolean append){
-		final String mimeType="text/plain;charset=UTF-8";
+
+	public static void makeDirectory(boolean persitent,final String path,final MakeDirectoryCallback callback){
+		
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				fileSystem.getRoot().getDirectory(path,true,false, new FileEntryCallback(){
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						callback.onMakeDirectory(file);
+					}
+				}
+				, new MessageErrorCallback("getDirectory",callback));
+			}
+		}
+		,new MessageErrorCallback("requestFileSystem",callback)
+		);
+	}
+	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append){
+		writeFile(persitent,path,text,callback,append,"UTF-8");
+	}
+	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append,final String encoding){
+		final String mimeType="text/plain;charset="+encoding;
 		int type=RequestFileSystem.TEMPORARY;
 		if(persitent){
 			type=RequestFileSystem.PERSISTENT;
@@ -102,7 +132,7 @@ private FileIOUtils(){}
 									
 									
 									
-									fileWriter.truncate(0);//TODO blob support length	
+									fileWriter.truncate(0);//FUTURE blob support length	
 								}else{
 									HTML5Test.log("empty ust write");
 									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
@@ -238,5 +268,8 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 	
 	public interface WriteCallback extends ErrorCallback{
 		public void onWriteEnd(FileEntry file);
+	}
+	public interface MakeDirectoryCallback extends ErrorCallback{
+		public void onMakeDirectory(FileEntry file);
 	}
 }

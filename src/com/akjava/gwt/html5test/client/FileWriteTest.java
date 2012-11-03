@@ -1,7 +1,6 @@
 package com.akjava.gwt.html5test.client;
 
 import com.akjava.gwt.html5.client.download.FileDownloadBuilder;
-import com.akjava.gwt.html5.client.download.HTML5Download;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
