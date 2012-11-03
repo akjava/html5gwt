@@ -10,8 +10,11 @@ color pick - not html5
 I tested only Windows Chrome.if there are contributer I will support others.
 but maybe official would support all platform.
 
-Release 
-r4 - akjavahtml5gwt_120214.jar
+Demo
+http://akjava.github.com/html5gwt/html5test.html
+
+Release  
+r6 - akjavahtml5gwt_1201102.jar
 
 BUG
 range widget don't fire event when setValue() called.
