@@ -8,7 +8,7 @@ public class Blob extends JavaScriptObject{
 	protected Blob(){}
 	
 	
-	public  final  Blob createBlob(JavaScriptObject object,String type){
+	public  static final  Blob createBlob(JavaScriptObject object,String type){
 	@SuppressWarnings("unchecked")
 	JsArray<JavaScriptObject> arrays=(JsArray<JavaScriptObject>) JsArray.createArray();
 	arrays.push(object);

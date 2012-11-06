@@ -184,7 +184,7 @@ public class FileSystemTest  extends VerticalPanel{
 		Button read=new Button("read",new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				FileIOUtils.readFileAsString("dir/a.txt", true,  new ReadStringCallback() {
+				FileIOUtils.readFileAsString(true, "dir/a.txt",  new ReadStringCallback() {
 					
 					@Override
 					public void onError(String message, Object option) {
@@ -782,11 +782,11 @@ Button writeButton=new Button("Add File",new ClickHandler() {
 	
 	private void updateCellList(){
 		currentSelectionFileEntry=null;
-		cellList.setRowCount(fileEntryList.size());
+		  cellList.setRowCount(fileEntryList.size());
 		 List<FileEntry> entries=new ArrayList<FileEntry>();
 		 entries.addAll(fileEntryList.values());
 		 cellList.setRowData(0, entries);
-		 
+		 //TODO test selectionModel.clear()
 		 previewTextArea.setText("");
 		 /*
 		 selectionModel=new SingleSelectionModel<FileEntry>();

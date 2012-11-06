@@ -17,7 +17,7 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class File extends JavaScriptObject{
+public class File extends Blob{
 
 	protected File(){}
 	

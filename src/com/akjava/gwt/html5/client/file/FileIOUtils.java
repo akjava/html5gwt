@@ -10,18 +10,17 @@ import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.RequestQuotaCallback;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.StorageInfoUsageCallback;
-import com.akjava.gwt.html5test.client.HTML5Test;
 
 public class FileIOUtils {
 private FileIOUtils(){}
 
 
-	public static void readFileAsString(final String path,boolean persitent,final ReadStringCallback callback){
+	public static void readFileAsString(boolean persitent,final String path,final ReadStringCallback callback){
 		final String encoding="UTF8";
-		readFileAsString(path,persitent,callback,encoding);
+		readFileAsString(persitent,path,callback,encoding);
 	}
 		
-		public static void readFileAsString(final String path,boolean persitent,final ReadStringCallback callback,final String encoding){
+		public static void readFileAsString(boolean persitent,final String path,final ReadStringCallback callback,final String encoding){
 		
 		int type=RequestFileSystem.TEMPORARY;
 		if(persitent){
@@ -48,6 +47,36 @@ private FileIOUtils(){}
 									}
 								});
 								reader.readAsText(file, encoding);
+							}});
+						
+						
+					}}, new MessageErrorCallback("getFile",callback));
+			}
+		}
+		,new MessageErrorCallback("requestFileSystem",callback)
+		);
+	}
+		
+		public static void getFile(boolean persitent,final String path,final ReadFileCallback callback){
+			
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				//if already exists call code: 9
+				fileSystem.getRoot().getFile(path, false, false, new FileEntryCallback(){
+
+					@Override
+					public void fileEntryCallback(final FileEntry fileEntry) {
+						
+						fileEntry.file(new FileCallback(){
+							@Override
+							public void callback(File file) {
+								callback.onReadFile(file, fileEntry);
 							}});
 						
 						
@@ -126,6 +155,78 @@ private FileIOUtils(){}
 		}
 		return value;
 	}
+	
+	public static void writeFile(boolean persitent,final String path,final File dataFile,final WriteCallback callback){
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				
+				
+				
+				fileSystem.getRoot().getFile(path,true,false, new FileEntryCallback(){
+
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						
+						file.createWriter(new FileWriterCallback() {
+							
+							@Override
+							public void createWriterCallback(final FileWriter fileWriter) {
+								
+								
+								fileWriter.setOnError(new ProgressEventCallback() {
+									@Override
+									public void progressEventCallback(ProgressEvent progressEvent) {
+										callback.onError("onWrite",file);
+									}
+								});//maybe should remove it
+								
+								
+								if(fileWriter.length()>0){
+									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+										@Override
+										public void progressEventCallback(ProgressEvent progressEvent) {
+											fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+												@Override
+												public void progressEventCallback(ProgressEvent progressEvent) {
+													callback.onWriteEnd(file);
+													
+												}
+											});
+											fileWriter.write(dataFile);
+										}
+									});
+									
+									
+									
+									
+									fileWriter.truncate(0);//FUTURE blob support length	
+								}else{
+									
+									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
+										@Override
+										public void progressEventCallback(ProgressEvent progressEvent) {
+											callback.onWriteEnd(file);
+										}
+									});
+									
+									fileWriter.write(dataFile);
+								}
+								
+							}
+						}, new MessageErrorCallback("getFileWriter",callback));
+						
+					}}, new MessageErrorCallback("getFile",callback));
+			}
+		}
+		,new MessageErrorCallback("requestFileSystem",callback)
+		);
+	}
+	
 	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append,final String encoding){
 		final String mimeType="text/plain;charset="+encoding;
 		int type=RequestFileSystem.TEMPORARY;
@@ -310,10 +411,18 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 		public void onReadString(String text,FileEntry file);
 	}
 	
+	public interface ReadFileCallback extends ErrorCallback{
+		public void onReadFile(File file,FileEntry fileEntry);
+	}
+	
 	public interface WriteCallback extends ErrorCallback{
 		public void onWriteEnd(FileEntry file);
 	}
 	public interface MakeDirectoryCallback extends ErrorCallback{
 		public void onMakeDirectory(FileEntry file);
 	}
+
+
+
+
 }
