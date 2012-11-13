@@ -24,6 +24,10 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.DragOverEvent;
+import com.google.gwt.event.dom.client.DragOverHandler;
+import com.google.gwt.event.dom.client.DropEvent;
+import com.google.gwt.event.dom.client.DropHandler;
 
 
 public class FileUtils {
@@ -51,6 +55,42 @@ public class FileUtils {
 	 */
 	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
 		final FileUploadForm form=new FileUploadForm();
+		form.getDropPanel().addDragOverHandler(new DragOverHandler() {
+
+			@Override
+			public void onDragOver(DragOverEvent event) {
+
+				event.preventDefault();
+			}
+		});
+		
+		form.getDropPanel().addDropHandler(new DropHandler() {
+
+			@Override
+			public void onDrop(DropEvent event) {
+
+				event.preventDefault();
+
+				final FileReader reader = FileReader.createFileReader();
+				final JsArray<File> files = FileUtils.transferToFile(event
+						.getNativeEvent());
+				GWT.log("length:" + files.length());
+				if (files.length() > 0) {
+					reader.setOnLoad(new FileHandler() {
+						@Override
+						public void onLoad() {
+							listener.uploaded(files.get(0), reader.getResultAsString());
+							if(reset){
+								form.reset();
+							}
+						}
+					});
+					reader.readAsDataURL(files.get(0));	
+				}
+			}
+		});
+		
+			
 		form.getFileUpload().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
