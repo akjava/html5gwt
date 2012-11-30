@@ -236,23 +236,24 @@ private FileIOUtils(){}
 		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
 			@Override
 			public void fileSystemCallback(FileSystem fileSystem) {
-				
+				debug("FileIoUtils-writeFile-fileSystemCallback");
 				final Blob blob=Blob.createBlob(text, mimeType);
 				
 				fileSystem.getRoot().getFile(path,true,false, new FileEntryCallback(){
 
 					@Override
 					public void fileEntryCallback(final FileEntry file) {
-						
+						debug("FileIoUtils-writeFile-fileEntryCallback");
 						file.createWriter(new FileWriterCallback() {
 							
 							@Override
 							public void createWriterCallback(final FileWriter fileWriter) {
-								
+								debug("FileIoUtils-writeFile-createWriterCallback");
 								
 								fileWriter.setOnError(new ProgressEventCallback() {
 									@Override
 									public void progressEventCallback(ProgressEvent progressEvent) {
+										debug("FileIoUtils-writeFile-createWriterCallback-onError");
 										callback.onError("onWrite",file);
 									}
 								});//maybe should remove it
@@ -422,6 +423,23 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 		public void onMakeDirectory(FileEntry file);
 	}
 
+	
+	public static boolean DEBUG;
+	private static void debug(String log){
+		if(!DEBUG){
+			return;
+		}
+		log(log);
+	}
+	
+	private static final native void log(String object)/*-{
+	if (navigator.appName == 'Microsoft Internet Explorer'){
+		return;
+	}
+if(console){
+	console.log(object);
+}
+}-*/;
 
 
 
