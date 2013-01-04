@@ -4,7 +4,7 @@ import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileUtils;
-import com.akjava.gwt.html5.client.file.Unit8Array;
+import com.akjava.gwt.html5.client.file.Uint8Array;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
@@ -70,7 +70,7 @@ public class HTML5Test implements EntryPoint {
 							if (asString) {
 								text = reader.getResultAsString();
 							} else {
-								Unit8Array array = reader.getResultAsBuffer();
+								Uint8Array array = reader.getResultAsBuffer();
 								log("length:" + array.length());
 
 								StringBuilder builder = new StringBuilder();

@@ -39,7 +39,7 @@ public class FileReader extends JavaScriptObject {
 	    return this.result;
 	  }-*/;
 		
-		public  final native Unit8Array getResultAsBuffer()/*-{
+		public  final native Uint8Array getResultAsBuffer()/*-{
 			if(this.result){
 				return new $wnd.Uint8Array(this.result);
 			}else{

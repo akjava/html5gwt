@@ -2,8 +2,8 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class Unit8Array extends JavaScriptObject{
-protected Unit8Array(){}
+public class Uint8Array extends JavaScriptObject{
+protected Uint8Array(){}
 	public  final native int length()/*-{
     return this.length;
   }-*/;
