@@ -155,8 +155,7 @@ private FileIOUtils(){}
 		}
 		return value;
 	}
-	
-	public static void writeFile(boolean persitent,final String path,final File dataFile,final WriteCallback callback){
+	public static void writeFile(boolean persitent,final String path,final Blob dataFile,final WriteCallback callback){
 		int type=RequestFileSystem.TEMPORARY;
 		if(persitent){
 			type=RequestFileSystem.PERSISTENT;
