@@ -27,6 +27,10 @@ public class Blob extends JavaScriptObject{
     return new $wnd.Blob(arrays,{type:type});
   	}-*/;
 	
+	public  static final native Blob createBlob(Uint8Array arrays,String type)/*-{
+    return new $wnd.Blob(arrays,{type:type});
+  	}-*/;
+	
 	public  static final native Blob createBase64Blob(String dataURI,String type)/*-{
 	 var BASE64_MARKER = ';base64,';
 	  var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
