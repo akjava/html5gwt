@@ -5,6 +5,7 @@ import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
 import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
 import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.ProgressEventCallback;
+import com.akjava.gwt.html5.client.file.callback.VoidCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo;
@@ -56,6 +57,10 @@ private FileIOUtils(){}
 		,new MessageErrorCallback("requestFileSystem",callback)
 		);
 	}
+		
+		public static void existFile(boolean persitent,final String path){
+			
+		}
 		
 		public static void getFile(boolean persitent,final String path,final ReadFileCallback callback){
 			
@@ -154,6 +159,32 @@ private FileIOUtils(){}
 			break;	
 		}
 		return value;
+	}
+	
+	public static void removeFile(boolean persitent,final String path,final RemoveCallback callback){
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				
+				fileSystem.getRoot().getFile(path,false,false, new FileEntryCallback(){
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						file.remove(new VoidCallback() {
+							@Override
+							public void callback() {
+								callback.onRemoved();
+							}
+						}, new MessageErrorCallback("remove",callback));
+					}
+				},new MessageErrorCallback("getFile",callback));
+				
+				
+			}
+		},new MessageErrorCallback("requestFileSystem",callback));
 	}
 	public static void writeFile(boolean persitent,final String path,final Blob dataFile,final WriteCallback callback){
 		int type=RequestFileSystem.TEMPORARY;
@@ -417,6 +448,9 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 	
 	public interface WriteCallback extends ErrorCallback{
 		public void onWriteEnd(FileEntry file);
+	}
+	public interface RemoveCallback extends ErrorCallback{
+		public void onRemoved();
 	}
 	public interface MakeDirectoryCallback extends ErrorCallback{
 		public void onMakeDirectory(FileEntry file);

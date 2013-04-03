@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.dom.client.HasDragLeaveHandlers;
 import com.google.gwt.event.dom.client.HasDragOverHandlers;
 import com.google.gwt.event.dom.client.HasDropHandlers;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -30,4 +32,7 @@ HasDragLeaveHandlers{
 	        return addBitlessDomHandler(handler, DragLeaveEvent.getType());
 	    }
 	
+	    public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
+	        return addDomHandler(handler, MouseWheelEvent.getType());
+	      }
 }
