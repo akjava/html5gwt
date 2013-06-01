@@ -14,9 +14,15 @@ import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Don't forget add both addDropHandler & addDragOverHandler
+ */
 public class DropVerticalPanelBase extends VerticalPanel implements HasDropHandlers, HasDragOverHandlers,
 HasDragLeaveHandlers{
 
+	/**
+	 * 
+	 */
 	  @Override
 	    public HandlerRegistration addDropHandler(DropHandler handler) {
 	        return addBitlessDomHandler(handler, DropEvent.getType());

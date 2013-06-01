@@ -5,10 +5,12 @@ import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
 import com.akjava.gwt.html5.client.file.FileUtils;
 import com.akjava.gwt.html5.client.file.Uint8Array;
+import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -17,6 +19,8 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -34,7 +38,7 @@ public class HTML5Test implements EntryPoint {
 		VerticalPanel root = new VerticalPanel();
 		tab.add(root,"File upload");
 
-		root.add(new Label("simple file upload,drop a text file here"));
+		root.add(new Label("Text file upload Test,drop a text file at textarea  and show text"));
 		final TextArea area = new TextArea();
 		area.setSize("400px", "200px");
 
@@ -102,7 +106,7 @@ public class HTML5Test implements EntryPoint {
 		});
 		root.add(area);
 
-		root.add(new Label("chrome folder support,drop multiple file here"));
+		root.add(new Label("Chrome folder support test,drop folder at textarea and show file list"));
 		final TextArea area2 = new TextArea();
 		area2.setSize("400px", "200px");
 
@@ -148,10 +152,43 @@ public class HTML5Test implements EntryPoint {
 		});
 		root.add(area2);
 		
+		
+		
+		DropVerticalPanelBase dropBase=new DropVerticalPanelBase();
+		//need some content
+		dropBase.add(new Label("Drop VerticalPanel Test,drop a file below and alert file name"));
+		dropBase.addDropHandler(new DropHandler() {
+			@Override
+			public void onDrop(DropEvent event) {
+				final JsArray<File> files = FileUtils.transferToFile(event
+						.getNativeEvent());
+				GWT.log("length:" + files.length());
+				
+				Window.alert(""+files.get(0).getFileName());
+				event.preventDefault();
+			}
+		});
+		root.add(dropBase);
+		//need this after chrome 27?
+		dropBase.addDragOverHandler(new DragOverHandler() {
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				
+			}
+		});
+		dropBase.setSize("400px", "200px");
+		/*
+		dropBase.add(new Button("test"));
+		dropBase.add(new TextArea());
+		Canvas c=Canvas.createIfSupported();
+		dropBase.add(c);
+		*/
+		
+		
 		tab.add(new InputRangeTest(),"Input Range");
 		tab.add(new FileWriteTest(),"File Download");
 		tab.add(new FileSystemTest(),"File System");
-		tab.selectTab(3);
+		tab.selectTab(0);
 	}
 	
 	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
