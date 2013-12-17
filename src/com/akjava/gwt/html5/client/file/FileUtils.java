@@ -91,7 +91,6 @@ public class FileUtils {
 				final FileReader reader = FileReader.createFileReader();
 				final JsArray<File> files = FileUtils.transferToFile(event
 						.getNativeEvent());
-				GWT.log("length:" + files.length());
 				if (files.length() > 0) {
 					reader.setOnLoad(new FileHandler() {
 						@Override
@@ -130,9 +129,65 @@ public class FileUtils {
 		});
 		return form;
 	}
-	
+	/**
+	 * 
+	 * @param listener DataURLListener which get text-file
+	 * @param reset do reset selection file name for same file re-upload.
+	 * @return
+	 */
 	public static FileUploadForm createSingleTextFileUploadForm(final DataURLListener listener,final boolean reset){
+		return createSingleTextFileUploadForm(listener,reset,"UTF-8");
+	}
+	public static FileUploadForm createSingleTextFileUploadForm(final DataURLListener listener,final boolean reset,final String textEncode){
 		final FileUploadForm form=new FileUploadForm();
+		form.getDropPanel().addDragOverHandler(new DragOverHandler() {
+
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+					form.getDropPanel().setBorderWidth(2);
+				}
+			}
+		});
+		form.getDropPanel().addDragLeaveHandler(new DragLeaveHandler() {
+			
+			@Override
+			public void onDragLeave(DragLeaveEvent event) {
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
+			}
+		});
+		
+		form.getDropPanel().addDropHandler(new DropHandler() {
+
+			@Override
+			public void onDrop(DropEvent event) {
+
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
+
+				final FileReader reader = FileReader.createFileReader();
+				final JsArray<File> files = FileUtils.transferToFile(event
+						.getNativeEvent());
+				if (files.length() > 0) {
+					reader.setOnLoad(new FileHandler() {
+						@Override
+						public void onLoad() {
+							listener.uploaded(files.get(0), reader.getResultAsString());
+							if(reset){
+								form.reset();
+							}
+						}
+					});
+					reader.readAsText(files.get(0),textEncode);	
+				}
+			}
+		});
 		//form.getFileUpload().add
 		form.getFileUpload().addChangeHandler(new ChangeHandler() {
 			@Override
@@ -150,7 +205,7 @@ public class FileUtils {
 						}
 					}
 				});
-				reader.readAsText(files.get(0),"UTF-8");
+				reader.readAsText(files.get(0),textEncode);
 				}
 				
 			}
@@ -158,7 +213,7 @@ public class FileUtils {
 		return form;
 	}
 	
-	
+	//TODO support drag&drop
 	public static FileUploadForm createMultiFileUploadForm(final DataURLsListener listener,final boolean reset){
 		final FileUploadForm form=new FileUploadForm();
 		form.setMultiple(true);

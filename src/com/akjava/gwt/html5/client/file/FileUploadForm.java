@@ -12,6 +12,10 @@ public boolean isShowDragOverBorder() {
 	return showDragOverBorder;
 }
 
+/**
+ * show border when file dragging to detect which area is target.(default css-name is html5dragOverBorder)
+ * @param showDragOverBorder
+ */
 public void setShowDragOverBorder(boolean showDragOverBorder) {
 	this.showDragOverBorder = showDragOverBorder;
 }
