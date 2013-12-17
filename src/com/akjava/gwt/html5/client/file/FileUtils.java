@@ -24,6 +24,8 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.DragLeaveEvent;
+import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
@@ -59,8 +61,20 @@ public class FileUtils {
 
 			@Override
 			public void onDragOver(DragOverEvent event) {
-
 				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+					form.getDropPanel().setBorderWidth(2);
+				}
+			}
+		});
+		form.getDropPanel().addDragLeaveHandler(new DragLeaveHandler() {
+			
+			@Override
+			public void onDragLeave(DragLeaveEvent event) {
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
 			}
 		});
 		
@@ -70,6 +84,9 @@ public class FileUtils {
 			public void onDrop(DropEvent event) {
 
 				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
 
 				final FileReader reader = FileReader.createFileReader();
 				final JsArray<File> files = FileUtils.transferToFile(event

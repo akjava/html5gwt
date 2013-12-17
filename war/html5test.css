@@ -1,3 +1,5 @@
 .table{
 	border: solid 1px #888;
 }
+.border {border-style: dashed;border-color: 0xffcccc}
+.html5dragOverBorder {border-style: dashed;border-color: 0x888}

@@ -15,6 +15,8 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.DragLeaveEvent;
+import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
@@ -22,6 +24,7 @@ import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -29,11 +32,46 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class HTML5Test implements EntryPoint {
 
+	public static DropVerticalPanelBase dropPanel;
+	public static void doneDrop(){
+		dropPanel.setBorderWidth(0);
+	}
 	@Override
 	public void onModuleLoad() {
+		dropPanel=new DropVerticalPanelBase();
+		dropPanel.setSize("100%", "100%");
+		dropPanel.setBorderWidth(0);
+		dropPanel.setStylePrimaryName("border");
+		RootLayoutPanel.get().add(dropPanel);
+		dropPanel.addDragOverHandler(new DragOverHandler() {
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				event.preventDefault();
+				//GWT.log("drag over");
+				dropPanel.setBorderWidth(4);
+			}
+		});
+		dropPanel.addDropHandler(new DropHandler() {
+			
+			@Override
+			public void onDrop(DropEvent event) {
+				event.preventDefault();
+				//GWT.log("drag over");
+			}
+		});
+		dropPanel.addDragLeaveHandler(new DragLeaveHandler() {
+			
+			@Override
+			public void onDragLeave(DragLeaveEvent event) {
+				event.preventDefault();
+				doneDrop();
+				//GWT.log("drag leave");
+			}
+		});
+		
 		
 		TabPanel tab=new TabPanel();
-		RootPanel.get().add(tab);
+		dropPanel.add(tab);
 		
 		VerticalPanel root = new VerticalPanel();
 		tab.add(root,"File upload");
@@ -101,7 +139,7 @@ public class HTML5Test implements EntryPoint {
 				}
 
 				// event.stopPropagation();
-
+				doneDrop();
 			}
 		});
 		root.add(area);
@@ -147,7 +185,7 @@ public class HTML5Test implements EntryPoint {
 
 				}
 
-
+				doneDrop();
 			}
 		});
 		root.add(area2);
@@ -166,6 +204,7 @@ public class HTML5Test implements EntryPoint {
 				
 				Window.alert(""+files.get(0).getFileName());
 				event.preventDefault();
+				doneDrop();
 			}
 		});
 		root.add(dropBase);

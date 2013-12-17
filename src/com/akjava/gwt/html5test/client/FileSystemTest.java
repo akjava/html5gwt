@@ -363,6 +363,7 @@ public class FileSystemTest  extends VerticalPanel{
 
 			@Override
 			public void uploaded(final File uploadFile, String value) {
+				HTML5Test.doneDrop();//this panel 100% converd background change border
 				int type=RequestFileSystem.TEMPORARY;
 				if(check.getValue()){
 					type=RequestFileSystem.PERSISTENT;
@@ -417,6 +418,7 @@ public class FileSystemTest  extends VerticalPanel{
 				);
 				
 			}},false);	
+		form.setShowDragOverBorder(true);
 		
 		requestButtons.add(form);
 		requestButtons.add(label);
