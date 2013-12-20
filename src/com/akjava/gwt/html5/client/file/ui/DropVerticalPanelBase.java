@@ -16,6 +16,30 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Don't forget add both addDropHandler & addDragOverHandler
+ * addDragLeaveHandler is option
+ do like
+ 
+ rootPanel.addDragOverHandler(new DragOverHandler() {
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				event.preventDefault();
+			}
+		});
+		rootPanel.addDragLeaveHandler(new DragLeaveHandler() {
+			
+			@Override
+			public void onDragLeave(DragLeaveEvent event) {
+				event.preventDefault();
+			}
+		});
+		rootPanel.addDropHandler(new DropHandler() {
+			@Override
+			public void onDrop(DropEvent event) {
+				event.preventDefault();
+				
+			}
+		});
+		
  */
 public class DropVerticalPanelBase extends VerticalPanel implements HasDropHandlers, HasDragOverHandlers,
 HasDragLeaveHandlers{

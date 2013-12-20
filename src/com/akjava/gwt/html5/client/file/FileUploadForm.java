@@ -1,6 +1,7 @@
 package com.akjava.gwt.html5.client.file;
 
 import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 
@@ -29,6 +30,7 @@ public void setFileUpload(FileUpload fileUpload) {
 }
 
 public FileUploadForm(){
+	super(Document.get().createFormElement(),false);
 	fileUpload = new FileUpload();
 	dropPanel = new DropVerticalPanelBase();
 	dropPanel.setBorderWidth(0);
