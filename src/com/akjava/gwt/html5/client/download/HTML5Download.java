@@ -13,6 +13,10 @@ public class HTML5Download implements FileDownload {
 	return   window.webkitURL || window.URL;
 	}-*/;
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public   native final DownloadBlobBuilder BlobBuilder()/*-{
 	$wnd.BlobBuilder=   $wnd.BlobBuilder || $wnd.WebKitBlobBuilder ||
                        $wnd.MozBlobBuilder;
