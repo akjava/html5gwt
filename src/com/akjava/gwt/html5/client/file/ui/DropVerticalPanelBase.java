@@ -1,5 +1,10 @@
 package com.akjava.gwt.html5.client.file.ui;
 
+import com.akjava.gwt.html5.client.file.File;
+import com.akjava.gwt.html5.client.file.FileHandler;
+import com.akjava.gwt.html5.client.file.FileReader;
+import com.akjava.gwt.html5.client.file.FileUtils;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
@@ -36,7 +41,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 			@Override
 			public void onDrop(DropEvent event) {
 				event.preventDefault();
-				
+				final FileReader reader = FileReader.createFileReader();
+				final JsArray<File> files = FileUtils.transferToFile(event
+						.getNativeEvent());
+				if (files.length() > 0) {
+					reader.setOnLoad(new FileHandler() {
+						@Override
+						public void onLoad() {
+							String text=reader.getResultAsString();
+							//do something
+						}
+					});
+					reader.readAsDataURL(files.get(0));	
+				}
 			}
 		});
 		

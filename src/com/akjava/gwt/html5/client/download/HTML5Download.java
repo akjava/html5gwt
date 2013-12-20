@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Anchor;
 
 
 public class HTML5Download implements FileDownload {
+	//TODO rename 
 	public   native final DownloadURL URL()/*-{
 	return   window.webkitURL || window.URL;
 	}-*/;
