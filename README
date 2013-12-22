@@ -14,7 +14,7 @@ Demo
 http://akjava.github.com/html5gwt/html5test.html
 
 Release  
-r6 - akjavahtml5gwt_1201102.jar
+r7 - akjavahtml5gwt_1301220.jar
 
 BUG
 range widget don't fire event when setValue() called.
