@@ -27,5 +27,7 @@ public void setText(String text) {
 public Anchor createDownloadLink(String linkText){
 	return new HTML5Download().generateTextDownloadLink(text, name, linkText);
 }
-
+public String toString(){
+	return name+":"+text;
+}
 }
