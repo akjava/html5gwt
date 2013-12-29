@@ -30,10 +30,19 @@ public class Blob extends JavaScriptObject{
 	public  static final native Blob createBlob(Uint8Array arrays,String type)/*-{
     return new $wnd.Blob(arrays,{type:type});
   	}-*/;
-	
+	/**
+	 * support not base64 contain text
+	 * @param dataURI
+	 * @param type
+	 * @return
+	 */
 	public  static final native Blob createBase64Blob(String dataURI,String type)/*-{
 	 var BASE64_MARKER = ';base64,';
-	  var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+	  var index=dataURI.indexOf(BASE64_MARKER);
+	  var base64Index=0;
+	  if(index!=-1){
+	  	 base64Index=index  + BASE64_MARKER.length
+	  }
 	  var base64 = dataURI.substring(base64Index);
 	  var raw = $wnd.atob(base64);
 	  var rawLength = raw.length;

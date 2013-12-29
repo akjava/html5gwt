@@ -51,6 +51,33 @@ public class HTML5Download implements FileDownload {
 		return link;
 	}
 	
+	/**
+	 * not tested yet
+	 * @param text
+	 * @param mimeType
+	 * @param fileName
+	 * @param anchorText
+	 * @param autoRemove
+	 * @return
+	 */
+	public  Anchor generateTextDownloadLink(String text,String mimeType,String fileName,String anchorText,boolean autoRemove){
+		final Anchor link=new Anchor(anchorText);
+		String url=URL().createObjectURL(Blob.createBlob(text,mimeType));
+		link.setHref(url);
+		link.getElement().setAttribute("download", fileName);
+		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);
+		if(autoRemove){
+			link.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					link.removeFromParent();
+				}
+			});
+		}
+		return link;
+	}
+	
 	//TODO support it
 	public  Anchor generateBase64DownloadLink(String urlData,String mimeType,String fileName,String anchorText,boolean autoRemove){
 		
