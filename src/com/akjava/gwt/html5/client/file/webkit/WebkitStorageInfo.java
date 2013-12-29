@@ -1,19 +1,14 @@
 package com.akjava.gwt.html5.client.file.webkit;
 
-
+/**
+ * @deprecated
+ * @author aki
+ *
+ */
 public class WebkitStorageInfo {
 
 	
-	public  static final native void test()/*-{
-    
-	   
-  
-    
-	$wnd.webkitStorageInfo.requestQuota($wnd.PERSISTENT, 100, function(size){
-	console.log(size);	
-	});
-	
-    }-*/;
+
 	
 	
 	
@@ -25,10 +20,12 @@ public class WebkitStorageInfo {
     };
     
     
-    
+    if(type==0){
+	$wnd.navigator.webkitTemporaryStorage.requestQuota(size, quotaCallback);
+  	}else{
+  	$wnd.navigator.webkitPersistentStorage.requestQuota(size, quotaCallback);
+  	}
    
-    
-	$wnd.webkitStorageInfo.requestQuota(type, size, quotaCallback);
     }-*/;
 	
 	public  static final native void queryUsageAndQuota(int type,StorageInfoUsageCallback storageInfoUsageCallback)/*-{
@@ -37,9 +34,11 @@ public class WebkitStorageInfo {
     var storageCallback=function(usage,quota){
     	storageInfoUsageCallback.@com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo$StorageInfoUsageCallback::storageInfoUsageCallback(DD)(usage,quota);
     };
-    
-    
-	$wnd.webkitStorageInfo.queryUsageAndQuota(type, storageCallback);
+  	if(type==0){
+	$wnd.navigator.webkitTemporaryStorage.queryUsageAndQuota(storageCallback);
+  	}else{
+  	$wnd.navigator.webkitPersistentStorage.queryUsageAndQuota(storageCallback);	
+  	}
     }-*/;
 	
 	public static interface RequestQuotaCallback{
