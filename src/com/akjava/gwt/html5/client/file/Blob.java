@@ -5,6 +5,8 @@ import com.google.gwt.core.client.JsArray;
 
 public class Blob extends JavaScriptObject{
 
+	public static String TYPE_APPLICATION_OCTET_STREM="application/octet-stream";
+	
 	protected Blob(){}
 	
 	
@@ -27,8 +29,13 @@ public class Blob extends JavaScriptObject{
     return new $wnd.Blob(arrays,{type:type});
   	}-*/;
 	
+	public static final Blob createBlob(byte[] bytes){
+		Uint8Array array=Uint8Array.createUint8(bytes);
+		return createBlob(array, TYPE_APPLICATION_OCTET_STREM);
+	}
+	
 	public  static final native Blob createBlob(Uint8Array arrays,String type)/*-{
-    return new $wnd.Blob(arrays,{type:type});
+    return new $wnd.Blob([arrays],{type:type});
   	}-*/;
 	/**
 	 * support not base64 contain text

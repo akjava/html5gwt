@@ -13,16 +13,24 @@ protected Uint8Array(){}
     return this[index];
   }-*/;
 	
+	
+	public  static final native Uint8Array createUint8(byte[] bytes)/*-{
+	      var uInt8Array = new $wnd.Uint8Array(bytes);
+		  return uInt8Array;
+	  	}-*/;
+	
+	/*
 	public static final Uint8Array createUint8(byte[] bytes){
 		JsArrayInteger array=(JsArrayInteger) JsArrayInteger.createArray();
 		for(int i=0;i<bytes.length;i++){
 			array.push(bytes[i]);
 		}
 		return createUInt8(array);
-	}
+	}*/
+	
 	public  static final native Uint8Array createUInt8(JsArrayInteger array)/*-{
    var uInt8Array = new $wnd.Uint8Array(array.length);
-	  for (var i = 0; i < rawLength; ++i) {
+	  for (var i = 0; i < array.length; ++i) {
 	    uInt8Array[i] = array[i];
 	  }
 	  return uInt8Array;
