@@ -14,4 +14,8 @@ public class DownloadURL extends JavaScriptObject{
 	public  native final void revokeObjectURL(String url)/*-{
 	this.revokeObjectURL(url);
 	}-*/;
+	
+	public  static  native final DownloadURL get()/*-{
+	return   window.webkitURL || window.URL;
+	}-*/;
 }

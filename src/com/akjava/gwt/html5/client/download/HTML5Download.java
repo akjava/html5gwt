@@ -13,6 +13,15 @@ public class HTML5Download implements FileDownload {
 	return   window.webkitURL || window.URL;
 	}-*/;
 	
+	//for implement FileDownload 
+	private static HTML5Download html5download=new HTML5Download();
+	private DownloadURL windowURL;
+	public static HTML5Download get(){
+		return html5download;
+	}
+	public HTML5Download(){
+		windowURL=DownloadURL.get();
+	}
 	/**
 	 * @deprecated
 	 * @return
@@ -35,7 +44,7 @@ public class HTML5Download implements FileDownload {
 		*/
 		
 		final Anchor link=new Anchor(anchorText);
-		String url=URL().createObjectURL(Blob.createBlob(text));
+		String url=windowURL.createObjectURL(Blob.createBlob(text));
 		link.setHref(url);
 		link.getElement().setAttribute("download", fileName);
 		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);
@@ -62,7 +71,7 @@ public class HTML5Download implements FileDownload {
 	 */
 	public  Anchor generateTextDownloadLink(String text,String mimeType,String fileName,String anchorText,boolean autoRemove){
 		final Anchor link=new Anchor(anchorText);
-		String url=URL().createObjectURL(Blob.createBlob(text,mimeType));
+		String url=windowURL.createObjectURL(Blob.createBlob(text,mimeType));
 		link.setHref(url);
 		link.getElement().setAttribute("download", fileName);
 		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);
@@ -83,7 +92,7 @@ public class HTML5Download implements FileDownload {
 		
 		
 		final Anchor link=new Anchor(anchorText);
-		String url=URL().createObjectURL(Blob.createBase64Blob(urlData,mimeType));
+		String url=windowURL.createObjectURL(Blob.createBase64Blob(urlData,mimeType));
 		//String url=URL().createObjectURL(bb.getBlob(mimeType));
 		link.setHref(url);
 		link.getElement().setAttribute("download", fileName);
@@ -108,7 +117,7 @@ public class HTML5Download implements FileDownload {
 	
 	public  Anchor generateDownloadLink(Blob blob,String mimeType,String fileName,String anchorText,boolean autoRemove){
 		final Anchor link=new Anchor(anchorText);
-		String url=URL().createObjectURL(blob);
+		String url=windowURL.createObjectURL(blob);
 		link.setHref(url);
 		link.getElement().setAttribute("download", fileName);
 		link.getElement().setAttribute("dataset.downloadurl", mimeType+":"+fileName+":"+url);

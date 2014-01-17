@@ -10,7 +10,7 @@ protected DirectoryReader(){}
 public  final native void readEntries(DirectoryCallback callback)/*-{
 
 this.readEntries( function(entries){
-	$wnd.console.log(entries);
+	//$wnd.console.log(entries);
 	callback.@com.akjava.gwt.html5.client.file.webkit.DirectoryCallback::callback(Lcom/google/gwt/core/client/JsArray;)(entries)
 });
 	}-*/;
