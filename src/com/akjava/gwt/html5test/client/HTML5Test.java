@@ -1,16 +1,20 @@
 package com.akjava.gwt.html5test.client;
 
+import java.util.List;
+
 import com.akjava.gwt.html5.client.file.File;
 import com.akjava.gwt.html5.client.file.FileHandler;
 import com.akjava.gwt.html5.client.file.FileReader;
+import com.akjava.gwt.html5.client.file.FileUploadForm;
 import com.akjava.gwt.html5.client.file.FileUtils;
+import com.akjava.gwt.html5.client.file.FileUtils.DataURLListener;
+import com.akjava.gwt.html5.client.file.FileUtils.DataURLsListener;
 import com.akjava.gwt.html5.client.file.Uint8Array;
 import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -22,10 +26,8 @@ import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,6 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class HTML5Test implements EntryPoint {
 
 	public static DropVerticalPanelBase dropPanel;
+	private TextArea firstTextArea;
 	public static void doneDrop(){
 		dropPanel.setBorderWidth(0);
 	}
@@ -77,10 +80,10 @@ public class HTML5Test implements EntryPoint {
 		tab.add(root,"File upload");
 
 		root.add(new Label("Text file upload Test,drop a text file at textarea  and show text"));
-		final TextArea area = new TextArea();
-		area.setSize("400px", "200px");
+		firstTextArea = new TextArea();
+		firstTextArea.setSize("400px", "200px");
 
-		area.addDragOverHandler(new DragOverHandler() {
+		firstTextArea.addDragOverHandler(new DragOverHandler() {
 
 			@Override
 			public void onDragOver(DragOverEvent event) {
@@ -89,63 +92,44 @@ public class HTML5Test implements EntryPoint {
 			}
 		});
 
-		final boolean asString = true;
-		area.addDropHandler(new DropHandler() {
+		FileUploadForm fileUpload=FileUtils.createSingleTextFileUploadForm(new DataURLListener() {
+			@Override
+			public void uploaded(File file, String text) {
+				firstTextArea.setText(text);
+			}
+		}, false);
+		root.add(fileUpload);
+		
+		firstTextArea.addDropHandler(new DropHandler() {
 
 			@Override
 			public void onDrop(DropEvent event) {
-
-				event.preventDefault();
-
-				final FileReader reader = FileReader.createFileReader();
-				final JsArray<File> files = FileUtils.transferToFile(event
-						.getNativeEvent());
-				GWT.log("length:" + files.length());
-				if (files.length() > 0) {
-
-					reader.setOnLoad(new FileHandler() {
-						@Override
-						public void onLoad() {
-							log("loaded:");
-							String text = "";
-
-							if (asString) {
-								text = reader.getResultAsString();
-							} else {
-								Uint8Array array = reader.getResultAsBuffer();
-								log("length:" + array.length());
-
-								StringBuilder builder = new StringBuilder();
-								for (int i = 0; i < array.length(); i++) {
-									builder.append((char) array.get(i));
-
-								}
-
-								builder.toString();
-							}
-
-							area.setText(text);
-
-						}
-					});
-
-					log(files.get(0));
-					if (asString) {
-						reader.readAsText(files.get(0), "UTF-8");
-					} else {
-						reader.readAsArrayBuffer(files.get(0));
-					}
-
-				}
-
-				// event.stopPropagation();
-				doneDrop();
+				onDropText(event);
 			}
 		});
-		root.add(area);
+		root.add(firstTextArea);
 
 		root.add(new Label("Chrome folder support test,drop folder at textarea and show file list"));
 		final TextArea area2 = new TextArea();
+		FileUploadForm multiUpload=FileUtils.createMultiFileUploadForm(new DataURLsListener() {
+			
+			@Override
+			public void uploaded(List<File> files, List<String> values) {
+				for(File file:files){
+				String name=file!=null?file.getFileName() :"";
+				String size=file!=null?""+file.getFileSize():"";
+				String newText = ""+"/"+name+ ","
+						+ size;
+				
+				String old = area2.getText();
+				area2.setText(old + newText+"\n");
+				}
+			}
+		}, false);
+		root.add(multiUpload);
+		multiUpload.setTitle("can select multifile,but only same directory");
+		
+		
 		area2.setSize("400px", "200px");
 
 		area2.addDropHandler(new DropHandler() {
@@ -229,8 +213,61 @@ public class HTML5Test implements EntryPoint {
 		tab.add(new FileSystemTest(),"File System");
 		tab.selectTab(0);
 	}
+	private void onDropText(DropEvent event){
+		final boolean asString = true;
+
+		event.preventDefault();
+
+		final FileReader reader = FileReader.createFileReader();
+		final JsArray<File> files = FileUtils.transferToFile(event
+				.getNativeEvent());
+		GWT.log("length:" + files.length());
+		if (files.length() > 0) {
+
+			reader.setOnLoad(new FileHandler() {
+				@Override
+				public void onLoad() {
+					log("loaded:");
+					String text = "";
+
+					if (asString) {
+						text = reader.getResultAsString();
+					} else {
+						Uint8Array array = reader.getResultAsBuffer();
+						log("length:" + array.length());
+
+						StringBuilder builder = new StringBuilder();
+						for (int i = 0; i < array.length(); i++) {
+							builder.append((char) array.get(i));
+
+						}
+
+						builder.toString();
+					}
+
+					firstTextArea.setText(text);
+
+				}
+			});
+
+			log(files.get(0));
+			if (asString) {
+				reader.readAsText(files.get(0), "UTF-8");
+			} else {
+				reader.readAsArrayBuffer(files.get(0));
+			}
+
+		}
+
+		// event.stopPropagation();
+		doneDrop();
+	}
+	
 	
 	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
+		if(entry==null){
+			return;
+		}
 		if (entry.isFile()) {
 			entry.file(callback,path);
 		} else if (entry.isDirectory()) {

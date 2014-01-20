@@ -259,7 +259,7 @@ public class FileUtils {
 	}
 	
 	public interface DataURLListener{
-		public void uploaded(File file,String value);
+		public void uploaded(File file,String asStringText);
 	}
 	
 	public interface DataURLsListener{

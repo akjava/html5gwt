@@ -49,5 +49,9 @@ public void setMultiple(boolean bool){
 public DropVerticalPanelBase getDropPanel(){
 	return dropPanel;
 }
+@Override
+public void setTitle(String title) {
+	fileUpload.setTitle(title);
+}
 
 }
