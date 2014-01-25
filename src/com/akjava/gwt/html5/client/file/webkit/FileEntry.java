@@ -1,10 +1,10 @@
 package com.akjava.gwt.html5.client.file.webkit;
 
 import com.akjava.gwt.html5.client.file.DirectoryReader;
+import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
+import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
 import com.akjava.gwt.html5.client.file.callback.FileWriterCallback;
 import com.akjava.gwt.html5.client.file.callback.VoidCallback;
-import com.akjava.gwt.html5.client.file.callback.FileErrorCallback;
-import com.akjava.gwt.html5.client.file.callback.FileEntryCallback;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class FileEntry extends JavaScriptObject{

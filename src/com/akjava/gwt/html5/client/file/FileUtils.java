@@ -18,8 +18,8 @@ package com.akjava.gwt.html5.client.file;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.Item;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -49,6 +49,13 @@ public class FileUtils {
   }-*/;
 	
 	
+	public static List<FileEntry> itemsToFileEntryList(JsArray<Item> items){
+		List<FileEntry> entrys=new ArrayList<FileEntry>();
+		for(int i=0;i<items.length();i++){
+			entrys.add(items.get(i).webkitGetAsEntry());
+		}
+		return entrys;
+	}
 
 	
 	//TODO support other case
@@ -129,6 +136,16 @@ public class FileUtils {
 		});
 		return form;
 	}
+	
+	
+	public static String getExtension(String name){
+	int last=name.lastIndexOf(".");
+	if(last!=-1){
+		return name.substring(last+1);
+	}
+	return null;
+	}
+	
 	/**
 	 * 
 	 * @param listener DataURLListener which get text-file
@@ -192,7 +209,7 @@ public class FileUtils {
 		form.getFileUpload().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				GWT.log("onChange:");
+				//GWT.log("onChange:");
 				final FileReader reader=FileReader.createFileReader();
 				final JsArray<File> files=FileUtils.toFile(event.getNativeEvent());
 				if(files.length()>0){

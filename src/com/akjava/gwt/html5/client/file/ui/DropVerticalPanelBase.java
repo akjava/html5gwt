@@ -1,10 +1,5 @@
 package com.akjava.gwt.html5.client.file.ui;
 
-import com.akjava.gwt.html5.client.file.File;
-import com.akjava.gwt.html5.client.file.FileHandler;
-import com.akjava.gwt.html5.client.file.FileReader;
-import com.akjava.gwt.html5.client.file.FileUtils;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
