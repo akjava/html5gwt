@@ -1,6 +1,9 @@
 package com.akjava.gwt.html5.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.IsEditor;
+import com.google.gwt.editor.client.LeafValueEditor;
+import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
@@ -8,7 +11,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
  * @author aki
  *
  */
-public abstract class InputRangeWidget extends FocusPanel implements InputRange{
+public abstract class InputRangeWidget extends FocusPanel implements InputRange,IsEditor<LeafValueEditor<Integer>>,TakesValue<Integer>{
 	public InputRangeWidget(){}
 	
 	public static InputRangeWidget createInputRange(int min,int max,int current){

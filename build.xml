@@ -16,9 +16,14 @@
           target: default              
          ================================= -->
     <target name="default" depends="depends" description="description">
+     	 <path id="libs">
+      	    <fileset dir="lib">
+      	      <include name="**/*.jar" />
+      	    </fileset>
+      	  </path>
         <javac destdir="tmp" srcdir="src">
         	<classpath path="C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.5.1\gwt-2.5.1\gwt-user.jar;C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.5.1\gwt-2.5.1\gwt-dev.jar">
-        	        		
+        		<path refid="libs"/>
         	</classpath>
         </javac>
     	<copydir dest="tmp" src="src"></copydir>

@@ -29,22 +29,13 @@ public class ElementInputRange extends FocusWidget implements HasChangeHandlers,
 	 protected RangeElement getRangeElement() {
 		    return getElement().cast();
 		  }
-	 public int getValue(){
+	 public Integer getValue(){
 		 return Integer.parseInt(getRangeElement().getValue());
 	 }
 	 public void setMax(int max){
 		 getRangeElement().setMax(max);
 	 }
-	 public void setValue(int value){
-		 getRangeElement().setValue(value);
-		 
-		 fireEvent();
-		 /*
-		  * trying  fire event
-		 NativeEvent nativeEvent=(NativeEvent) NativeEvent.createObject();
-		 ChangeEvent.fireNativeEvent(nativeEvent, this);
-		 */
-	 }
+	 
 	 
 
 	 private List<InputRangeListener> listeners=new ArrayList<InputRangeListener>();
@@ -120,5 +111,11 @@ public class ElementInputRange extends FocusWidget implements HasChangeHandlers,
 	@Override
 	public void setHeight(int height) {
 		this.setHeight(height+"px");
+	}
+	@Override
+	public void setValue(Integer value) {
+ getRangeElement().setValue(value);
+		 
+		 fireEvent();
 	}
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.editor.client.LeafValueEditor;
+import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -291,7 +293,7 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 	}
 
 	@Override
-	public void setValue(int value) {
+	public void setValue(Integer value) {
 		 if(value<getMin()){
 			 value=getMin();
 		 }
@@ -302,7 +304,7 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 	}
 
 	@Override
-	public int getValue() {
+	public Integer getValue() {
 		return value;
 	}
 
@@ -351,6 +353,19 @@ canvas.getContext2d().clearRect(0, 0, width, height);
 		canvas.setCoordinateSpaceWidth(height);
 		update(getValue());
 	}
+
+
+	private LeafValueEditor<Integer> editor;
+	
+	@Override
+	public LeafValueEditor<Integer> asEditor() {
+		if (editor == null) {
+		      editor = TakesValueEditor.of(this);
+		    }
+		    return editor;
+	}
+
+
 
 
 	

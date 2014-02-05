@@ -15,6 +15,8 @@
  */
 package com.akjava.gwt.html5.client;
 
+import com.google.gwt.editor.client.LeafValueEditor;
+import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.user.client.ui.Widget;
 
 public  class HTML5InputRange extends InputRangeWidget implements InputRange{
@@ -67,16 +69,11 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 
 
 
-	public int getValue(){
-		return range.getValue();
-	 }
+
 	 public void setMax(int max){
 		 range.setMax(max);
 	 }
-	 public void setValue(int value){
-		
-		 range.setValue(value);
-	 }
+	
 	 
 	
 	
@@ -121,6 +118,24 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 	@Override
 	public void setHeight(int height) {
 		range.setHeight(height);
+	}
+
+
+
+	private LeafValueEditor<Integer> editor;
+	@Override
+	public LeafValueEditor<Integer> asEditor() {
+		if (editor == null) {
+		      editor = TakesValueEditor.of(this);
+		    }
+		    return editor;
+	}
+	public Integer getValue(){
+		return range.getValue();
+	 }
+	@Override
+	public void setValue(Integer value) {
+		 range.setValue(value);
 	}
 
 }

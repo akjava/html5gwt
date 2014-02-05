@@ -58,11 +58,15 @@ public class FileUtils {
 	}
 
 	
+	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
+		return createSingleFileUploadForm(listener, reset, false);
+	}
+		
 	//TODO support other case
 	/*
 	 * why need reset because sometime you would like to re-upload modified same file.in such case it need reset though it's use change-handler.
 	 */
-	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
+	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset,boolean supportOnDrop){
 		final FileUploadForm form=new FileUploadForm();
 		form.getDropPanel().addDragOverHandler(new DragOverHandler() {
 
@@ -84,7 +88,7 @@ public class FileUtils {
 				}
 			}
 		});
-		
+		if(supportOnDrop){
 		form.getDropPanel().addDropHandler(new DropHandler() {
 
 			@Override
@@ -112,7 +116,7 @@ public class FileUtils {
 				}
 			}
 		});
-		
+		}
 			
 		form.getFileUpload().addChangeHandler(new ChangeHandler() {
 			@Override

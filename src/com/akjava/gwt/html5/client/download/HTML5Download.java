@@ -32,9 +32,15 @@ public class HTML5Download implements FileDownload {
     return new $wnd.BlobBuilder();
 	}-*/;
 	
+	/**
+	 * IE not support this use generateDownloadLink
+	 */
 	public  Anchor generateTextDownloadLink(String text,String fileName,String anchorText){
 		return generateTextDownloadLink(text,fileName,anchorText,false);
 	}
+	/**
+	 * IE not support this use generateDownloadLink
+	 */
 	public  Anchor generateTextDownloadLink(String text,String fileName,String anchorText,boolean autoRemove){
 		String mimeType="text/plain;charset=UTF-8";
 		/*
@@ -60,6 +66,10 @@ public class HTML5Download implements FileDownload {
 		return link;
 	}
 	
+	
+	/**
+	 * IE not support this use generateDownloadLink
+	 */
 	/**
 	 * not tested yet
 	 * @param text
@@ -87,6 +97,9 @@ public class HTML5Download implements FileDownload {
 		return link;
 	}
 	
+	/**
+	 * IE not support this use generateDownloadLink
+	 */
 	//TODO support it
 	public  Anchor generateBase64DownloadLink(String urlData,String mimeType,String fileName,String anchorText,boolean autoRemove){
 		
@@ -109,6 +122,10 @@ public class HTML5Download implements FileDownload {
 		return link;
 	}
 	
+	
+	/**
+	 * if you would like to support IE,keep blob in field.
+	 */
 	
 	//blob have mimetype?
 	public  Anchor generateDownloadLink(Blob blob,String mimeType,String fileName,String anchorText){

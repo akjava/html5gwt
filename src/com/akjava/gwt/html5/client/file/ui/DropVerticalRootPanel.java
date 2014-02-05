@@ -1,11 +1,15 @@
 package com.akjava.gwt.html5.client.file.ui;
 
-import com.akjava.gwt.html5.client.file.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.akjava.gwt.html5.client.file.FileUtils;
+import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
 import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
+import com.google.common.base.Optional;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
@@ -13,51 +17,18 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
-/**
- * TODO 
- * how to know drop end?
- * @author aki
- *
+/*
+ * this is usefull when do nothing drop rootPanel
  */
-public abstract class AbstractVerticalDropPanel extends DropVerticalPanelBase {
+public abstract class DropVerticalRootPanel extends DropVerticalPanelBase implements FilePathCallback{
 
-	
-	public abstract void dropStart();
-	//public abstract void dropEnd();
-	public abstract void dropFile(File file,String parent);
-	public AbstractVerticalDropPanel(){
-		this.addDropHandler(new DropHandler() {
-
-			@Override
-			public void onDrop(DropEvent event) {
-				event.preventDefault();
-
-				
-				dropStart();
-				
-				
-				
-				final JsArray<Item> items = FileUtils.transferToItem(event
-						.getNativeEvent());
-				final FilePathCallback callback = new FilePathCallback() {
-					@Override
-					public void callback(File file, String parent) {
-						if(file!=null){
-						dropFile(file,parent);
-						}
-					}
-					
-				};
-			
-				for(int i=0;i<items.length();i++){
-					FileEntry entry = items.get(i).webkitGetAsEntry();
-					entryCallback(entry,callback,"");
-				}
-				
-			
-			}
-		});
+	public DropVerticalRootPanel(boolean addRootLayoutPanel){
+		this.setSize("100%", "100%");
+		this.setBorderWidth(0);
+		this.setStylePrimaryName("html5_drag_border");
+		
 		this.addDragOverHandler(new DragOverHandler() {
 			@Override
 			public void onDragOver(DragOverEvent event) {
@@ -66,19 +37,34 @@ public abstract class AbstractVerticalDropPanel extends DropVerticalPanelBase {
 				
 			}
 		});
-		
+		this.addDropHandler(new DropHandler() {
+			
+			@Override
+			public void onDrop(DropEvent event) {
+				event.preventDefault();
+				final JsArray<Item> items = FileUtils.transferToItem(event
+						.getNativeEvent());
+				
+				List<FileEntry> entries=FileUtils.itemsToFileEntryList(items);
+				onDropFiles(entries);
+				dragEnd();
+			}
+		});
 		this.addDragLeaveHandler(new DragLeaveHandler() {
 			
 			@Override
 			public void onDragLeave(DragLeaveEvent event) {
 				event.preventDefault();
-				dragLeave();
+				dragEnd();
 			}
 		});
+		
+		if(addRootLayoutPanel){
+			RootLayoutPanel.get().add(this);
+		}
 	}
-	public abstract void dragLeave() ;
-	public abstract void dragOver() ;
-	private void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
+	
+	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
 		if(entry==null){
 			return;
 		}
@@ -100,4 +86,16 @@ public abstract class AbstractVerticalDropPanel extends DropVerticalPanelBase {
 		}
 	}
 	
+	public  void onDropFiles(List<FileEntry> files){
+		for(FileEntry file:files){
+			entryCallback(file,this,"");
+		}
+	}
+
+	public  void dragOver(){
+		this.setBorderWidth(4);
+	}
+	public  void dragEnd(){
+		this.setBorderWidth(0);
+	}
 }
