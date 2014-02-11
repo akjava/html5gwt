@@ -11,16 +11,21 @@ import com.google.gwt.typedarrays.shared.ArrayBuffer;
  */
 public class Uint8Array extends JavaScriptObject {
 protected Uint8Array(){}
+
+/**
+ * should id do boule?
+ * @return
+ */
 	public  final native int length()/*-{
     return this.length;
   }-*/;
 	
-	public  final native short get(int index)/*-{
+	public  final native int get(int index)/*-{
     return this[index];
   }-*/;
 	
 	
-	public  static final native Uint8Array createUint8(double length)/*-{
+	public  static final native Uint8Array createUint8(int length)/*-{
     var uInt8Array = new $wnd.Uint8Array(length);
 	  return uInt8Array;
 	}-*/;

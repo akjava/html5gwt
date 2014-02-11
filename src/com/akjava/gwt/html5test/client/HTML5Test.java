@@ -15,6 +15,7 @@ import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.FilePathCallback;
 import com.akjava.gwt.html5.client.file.webkit.Item;
+import com.google.common.collect.Lists;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -25,6 +26,7 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -211,7 +213,21 @@ public class HTML5Test implements EntryPoint {
 		tab.add(new InputRangeTest(),"Input Range");
 		tab.add(new FileWriteTest(),"File Download");
 		tab.add(new FileSystemTest(),"File System");
-		tab.selectTab(0);
+		
+		tab.add(new SpeechTest(),"Speech Synth");
+		tab.add(new RecognizeTest(),"Speech Recognize");
+		
+		int index=0;
+		String token=History.getToken();
+		List<String> labels=Lists.newArrayList("upload","range","download","filesystem","synth","recognize");
+		for(int i=0;i<labels.size();i++){
+			if(labels.get(i).equals(token)){
+				index=i;
+				break;
+			}
+		}
+		
+		tab.selectTab(index);
 	}
 	private void onDropText(DropEvent event){
 		final boolean asString = true;
