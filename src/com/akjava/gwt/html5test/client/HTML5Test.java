@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -228,6 +229,8 @@ public class HTML5Test implements EntryPoint {
 		}
 		
 		tab.selectTab(index);
+		
+		dropPanel.add(new Anchor("Github Project Page","https://github.com/akjava/html5gwt"));
 	}
 	private void onDropText(DropEvent event){
 		final boolean asString = true;

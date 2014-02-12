@@ -48,7 +48,7 @@
   </replace-with>
   
   	<!-- 
-  
+   <set-property name="user.agent" value="safari"/>
   	 -->
-  	 	 <set-property name="user.agent" value="safari"/>
+  	 	
 </module>
