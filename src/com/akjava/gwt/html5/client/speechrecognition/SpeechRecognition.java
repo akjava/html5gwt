@@ -60,6 +60,7 @@ protected SpeechRecognition(){}
 
 	public final native void setOnResult(SpeechRecognitionResultListener listener)/*-{
     this.onresult=function (event) {
+    console.log(event);
 	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionResultListener::onResult(Lcom/akjava/gwt/html5/client/speechrecognition/SpeechRecognitionEvent;)(event);
 	};
   	}-*/;

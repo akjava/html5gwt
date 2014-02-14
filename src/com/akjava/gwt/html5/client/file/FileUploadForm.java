@@ -1,6 +1,9 @@
 package com.akjava.gwt.html5.client.file;
 
+import java.util.List;
+
 import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
+import com.google.common.base.Joiner;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -9,6 +12,15 @@ public class FileUploadForm extends FormPanel{
 private FileUpload fileUpload;
 private DropVerticalPanelBase dropPanel;
 private boolean showDragOverBorder;
+
+public static String ACCEPT_IMAGE_JPEG="image/jpeg";
+public static String ACCEPT_IMAGE_PNG="image/png";
+public static String ACCEPT_IMAGE_GIF="image/gif";
+public static String ACCEPT_IMAGE="image/*";
+public static String ACCEPT_AUDIO="audio/*";
+public static String ACCEPT_VIDEO="video/*";
+
+
 public boolean isShowDragOverBorder() {
 	return showDragOverBorder;
 }
@@ -27,6 +39,16 @@ public FileUpload getFileUpload() {
 
 public void setFileUpload(FileUpload fileUpload) {
 	this.fileUpload = fileUpload;
+}
+
+
+
+public void setAccept(String accept){
+	fileUpload.getElement().setAttribute("accept", accept);
+}
+
+public void setAccept(List<String> accepts){
+	fileUpload.getElement().setAttribute("accept", Joiner.on(",").join(accepts));
 }
 
 public FileUploadForm(){

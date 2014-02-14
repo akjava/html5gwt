@@ -59,8 +59,6 @@ protected SpeechSynthesis(){}
 	 * @return
 	 */
 	public  final native JsArray<Voice> getVoices()/*-{
-	console.log(this);
-	console.log(this.getVoices());
     return this.getVoices();
   	}-*/;
 	

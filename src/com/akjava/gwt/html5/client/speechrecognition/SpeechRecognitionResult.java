@@ -1,5 +1,8 @@
 package com.akjava.gwt.html5.client.speechrecognition;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -20,4 +23,12 @@ return this.isFinal;
 public   final native SpeechRecognitionAlternative get(int index)/*-{
 return this[index];
 	}-*/;
+
+public final List<SpeechRecognitionAlternative> getSpeechRecognitionAlternativeAsList(){
+	List<SpeechRecognitionAlternative> list=new ArrayList<SpeechRecognitionAlternative>();
+	for(int i=0;i<getLength();i++){
+		list.add(get(i));
+	}
+	return list;
+}
 }
