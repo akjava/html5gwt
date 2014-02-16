@@ -60,7 +60,6 @@ protected SpeechRecognition(){}
 
 	public final native void setOnResult(SpeechRecognitionResultListener listener)/*-{
     this.onresult=function (event) {
-    console.log(event);
 	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionResultListener::onResult(Lcom/akjava/gwt/html5/client/speechrecognition/SpeechRecognitionEvent;)(event);
 	};
   	}-*/;
@@ -73,32 +72,32 @@ protected SpeechRecognition(){}
 	
 	public final native void setOnAudioStart(SpeechRecognitionAudioStartListener listener)/*-{
     this.onaudiostart=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionAudioStartListener::onAudioStart();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionAudioStartListener::onAudioStart()();
 	};
   	}-*/;
 	public final native void setOnSoundStart(SpeechRecognitionSoundStartListener listener)/*-{
     this.onsoundstart=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSoundStartListener::onSoundStart();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSoundStartListener::onSoundStart()();
 	};
   	}-*/;
 	public final native void setOnSpeechStart(SpeechRecognitionSpeechStartListener listener)/*-{
     this.onspeechstart=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSpeechStartListener::onSpeechStart();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSpeechStartListener::onSpeechStart()();
 	};
   	}-*/;
 	public final native void setOnSpeechEnd(SpeechRecognitionSpeechEndListener listener)/*-{
     this.onspeechend=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSpeechEndListener::onSpeechEnd();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSpeechEndListener::onSpeechEnd()();
 	};
   	}-*/;
 	public final native void setOnSoundEnd(SpeechRecognitionSoundEndListener listener)/*-{
     this.onsoundend=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSoundEndListener::onSoundEnd();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionSoundEndListener::onSoundEnd()();
 	};
   	}-*/;
 	public final native void setOnAudioEnd(SpeechRecognitionAudioEndListener listener)/*-{
     this.onaudioend=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionAudioEndListener::onAudioEnd();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionAudioEndListener::onAudioEnd()();
 	};
   	}-*/;
 	public final native void setOnNomatch(SpeechRecognitionNomatchListener listener)/*-{
@@ -107,13 +106,13 @@ protected SpeechRecognition(){}
 	};
   	}-*/;
 	public final native void setOnStart(SpeechRecognitionStartListener listener)/*-{
-    this.onstart=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionStartListener::onStart();
+    this.onstart=function (e) {
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionStartListener::onStart()();
 	};
   	}-*/;
 	public final native void setOnEnd(SpeechRecognitionEndListener listener)/*-{
     this.onend=function () {
-	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionEndListener::onEnd();
+	listener.@com.akjava.gwt.html5.client.speechrecognition.listeners.SpeechRecognitionEndListener::onEnd()();
 	};
   	}-*/;
 

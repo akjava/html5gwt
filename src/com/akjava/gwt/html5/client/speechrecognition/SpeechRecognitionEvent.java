@@ -6,6 +6,10 @@ import com.google.gwt.core.client.JsArray;
 public class SpeechRecognitionEvent extends JavaScriptObject{
 protected SpeechRecognitionEvent(){}
 
+public   final native double getTimeStamp()/*-{
+return this.timeStamp;
+	}-*/;
+
 public   final native int getResultIndex()/*-{
 return this.resultIndex;
 	}-*/;
