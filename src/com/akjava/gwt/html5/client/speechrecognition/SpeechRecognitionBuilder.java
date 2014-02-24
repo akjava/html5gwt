@@ -51,7 +51,7 @@ public class SpeechRecognitionBuilder {
 		return this;
 	}
 	
-	public SpeechRecognitionBuilder onStart(SpeechRecognitionEndListener onEnd){
+	public SpeechRecognitionBuilder onEnd(SpeechRecognitionEndListener onEnd){
 		this.onEnd=onEnd;
 		return this;
 	}
@@ -75,6 +75,12 @@ public class SpeechRecognitionBuilder {
 		}
 		if(onResult!=null){
 			speechRecognition.setOnResult(onResult);
+		}
+		if(onStart!=null){
+			speechRecognition.setOnStart(onStart);
+		}
+		if(onEnd!=null){
+			speechRecognition.setOnEnd(onEnd);
 		}
 		return speechRecognition;
 	}

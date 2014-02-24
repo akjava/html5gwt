@@ -40,6 +40,11 @@ protected SpeechRecognition(){}
     this.lang=lang;
   	}-*/; 
 	
+
+	public  final native String getLang()/*-{
+    return this.lang;
+  	}-*/; 
+	
 	public  final native void setMaxAlternatives(int maxAlternatives)/*-{
     this.maxAlternatives=maxAlternatives;
   	}-*/; 

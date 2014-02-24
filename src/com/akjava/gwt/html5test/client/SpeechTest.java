@@ -171,7 +171,7 @@ public class SpeechTest  extends VerticalPanel{
 					
 					textBox = new TextBox();
 					//<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">Hello world<voice xml:lang=\"fr-FR\" gender=\"female\">do you know me?</voice></speak>
-					textBox.setText("hello1\nhello2");
+					textBox.setText(tests.get(0));
 					h1.add(textBox);
 					Button speakBt=new Button("speak",new ClickHandler() {
 					
@@ -241,12 +241,15 @@ public class SpeechTest  extends VerticalPanel{
 					label = new Label("");
 					add(label);
 					
+					add(new Label("defalt-lang"));
 					defaultLangBox = new TextBox();
 					defaultLangBox.setText(SpeechUtils.JA_JP);
 					add(defaultLangBox);
 					
 					
 					TextArea output=new TextArea();
+					output.setSize("600px", "150px");
+					output.setReadOnly(true);
 					add(output);
 					String list=Joiner.on("\n").join(Iterables.transform(voices, new VoiceToCsvFunction()));
 					output.setText(list);
