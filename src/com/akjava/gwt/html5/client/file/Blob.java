@@ -2,6 +2,7 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.typedarrays.shared.ArrayBuffer;
 
 public class Blob extends JavaScriptObject{
 
@@ -33,6 +34,10 @@ public class Blob extends JavaScriptObject{
 		Uint8Array array=Uint8Array.createUint8(bytes);
 		return createBlob(array, TYPE_APPLICATION_OCTET_STREM);
 	}
+	
+	public  static final native Blob createBlob(ArrayBuffer buffer)/*-{
+    return new $wnd.Blob([buffer]);
+  	}-*/;
 	
 	public  static final native Blob createBlob(Uint8Array arrays,String type)/*-{
     return new $wnd.Blob([arrays],{type:type});

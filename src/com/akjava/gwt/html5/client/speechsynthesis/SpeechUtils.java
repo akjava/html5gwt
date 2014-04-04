@@ -33,7 +33,7 @@ public static final String PT_PT="pt_PT";
 	public static Voice getVoiceAtLang(List<Voice> voices,String lang){
 		String hifun=lang.replace('_', '-');
 		for(int i=0;i<voices.size();i++){
-			System.out.println(voices.get(i).getLang()+","+lang);
+			//System.out.println(voices.get(i).getLang()+","+lang);
 			if(voices.get(i).getLang().equals(lang)||voices.get(i).getLang().equals(hifun)){
 				return voices.get(i);
 			}

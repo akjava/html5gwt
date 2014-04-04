@@ -141,6 +141,81 @@ public class FileUtils {
 		return form;
 	}
 	
+	public static FileUploadForm createSingleFileUploadForm(final DataArrayListener listener,final boolean reset,boolean supportOnDrop){
+		final FileUploadForm form=new FileUploadForm();
+		form.getDropPanel().addDragOverHandler(new DragOverHandler() {
+
+			@Override
+			public void onDragOver(DragOverEvent event) {
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+					form.getDropPanel().setBorderWidth(2);
+				}
+			}
+		});
+		form.getDropPanel().addDragLeaveHandler(new DragLeaveHandler() {
+			
+			@Override
+			public void onDragLeave(DragLeaveEvent event) {
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
+			}
+		});
+		if(supportOnDrop){
+		form.getDropPanel().addDropHandler(new DropHandler() {
+
+			@Override
+			public void onDrop(DropEvent event) {
+
+				event.preventDefault();
+				if(form.isShowDragOverBorder()){
+				form.getDropPanel().setBorderWidth(0);
+				}
+
+				final FileReader reader = FileReader.createFileReader();
+				final JsArray<File> files = FileUtils.transferToFile(event
+						.getNativeEvent());
+				if (files.length() > 0) {
+					reader.setOnLoad(new FileHandler() {
+						@Override
+						public void onLoad() {
+							listener.uploaded(files.get(0), reader.getResultAsBuffer());
+							if(reset){
+								form.reset();
+							}
+						}
+					});
+					reader.readAsArrayBuffer(files.get(0));	
+				}
+			}
+		});
+		}
+			
+		form.getFileUpload().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				final FileReader reader=FileReader.createFileReader();
+				final JsArray<File> files=FileUtils.toFile(event.getNativeEvent());
+				if(files.length()>0){
+				reader.setOnLoad(new FileHandler() {
+					@Override
+					public void onLoad() {
+						listener.uploaded(files.get(0), reader.getResultAsBuffer());
+						if(reset){
+							form.reset();
+						}
+					}
+				});
+				reader.readAsArrayBuffer(files.get(0));
+				}
+				
+			}
+		});
+		return form;
+	}
+	
 	
 	public static String getExtension(String name){
 	int last=name.lastIndexOf(".");
@@ -277,6 +352,10 @@ public class FileUtils {
 			}
 		});
 		return form;
+	}
+	
+	public interface DataArrayListener{
+		public void uploaded(File file,Uint8Array array);
 	}
 	
 	public interface DataURLListener{

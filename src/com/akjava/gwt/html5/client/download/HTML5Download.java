@@ -8,7 +8,8 @@ import com.google.gwt.user.client.ui.Anchor;
 
 
 public class HTML5Download implements FileDownload {
-	//TODO rename 
+	
+	//TODO rename or remove,here is strange location
 	public   native final DownloadURL URL()/*-{
 	return   window.webkitURL || window.URL;
 	}-*/;

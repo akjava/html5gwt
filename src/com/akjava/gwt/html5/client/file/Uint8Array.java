@@ -25,6 +25,15 @@ protected Uint8Array(){}
   }-*/;
 	
 	
+	public  final native ArrayBuffer getBuffer()/*-{
+    return this.buffer;
+  }-*/;
+	
+	public  static final native Uint8Array createUint8(ArrayBuffer buffer)/*-{
+	  var uInt8Array = new $wnd.Uint8Array(buffer);
+	  return uInt8Array;
+	}-*/;
+	
 	public  static final native Uint8Array createUint8(int length)/*-{
     var uInt8Array = new $wnd.Uint8Array(length);
 	  return uInt8Array;
@@ -55,6 +64,15 @@ protected Uint8Array(){}
 		this[i]=v;
 	}-*/;
 	
+	public final byte[] toByteArray(){
+		byte[] bt=new byte[this.length()];
+		for(int j=0;j<this.length();j++){
+			bt[j]=(byte) this.get(j);
+		}
+		return bt;
+	}
+
+
 	
 	
 }
