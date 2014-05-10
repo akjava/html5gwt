@@ -59,7 +59,7 @@ public class FileUtils {
 
 	
 	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
-		return createSingleFileUploadForm(listener, reset, false);
+		return createSingleFileUploadForm(listener, reset, true);//change default support drop
 	}
 		
 	//TODO support other case
@@ -114,6 +114,7 @@ public class FileUtils {
 					});
 					reader.readAsDataURL(files.get(0));	
 				}
+			event.stopPropagation();//maybe stop root drop,//TODO 
 			}
 		});
 		}
@@ -189,6 +190,7 @@ public class FileUtils {
 					});
 					reader.readAsArrayBuffer(files.get(0));	
 				}
+				event.stopPropagation();//maybe stop root drop,//TODO 
 			}
 		});
 		}
@@ -282,7 +284,9 @@ public class FileUtils {
 					});
 					reader.readAsText(files.get(0),textEncode);	
 				}
+				event.stopPropagation();//maybe stop root drop,//TODO 
 			}
+			
 		});
 		//form.getFileUpload().add
 		form.getFileUpload().addChangeHandler(new ChangeHandler() {
@@ -355,15 +359,15 @@ public class FileUtils {
 	}
 	
 	public interface DataArrayListener{
-		public void uploaded(File file,Uint8Array array);
+		public void uploaded(final File file,Uint8Array array);
 	}
 	
-	public interface DataURLListener{
-		public void uploaded(File file,String asStringText);
+	public interface DataURLListener{//utf-8 text or base64
+		public void uploaded(final File file,String text);
 	}
 	
 	public interface DataURLsListener{
-		public void uploaded(List<File> files,List<String> values);
+		public void uploaded(final List<File> files,List<String> values);
 	}
 	
 

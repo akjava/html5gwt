@@ -68,6 +68,8 @@ public  class HTML5InputRange extends InputRangeWidget implements InputRange{
 
 
 
+	
+	
 
 
 	 public void setMax(int max){

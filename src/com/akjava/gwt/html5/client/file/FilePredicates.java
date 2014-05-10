@@ -32,5 +32,5 @@ public class FilePredicates {
 	public static ListedExtensionOnly getImageExtensionOnly(){
 		return ImageExtensionOnly;
 	}
-	private static ListedExtensionOnly ImageExtensionOnly=new ListedExtensionOnly(Lists.newArrayList("png","jpg","jpeg","gif"));
+	private static ListedExtensionOnly ImageExtensionOnly=new ListedExtensionOnly(Lists.newArrayList("png","jpg","jpeg","gif","webp","bmp","ico"));
 }

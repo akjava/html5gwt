@@ -42,7 +42,10 @@ public void setFileUpload(FileUpload fileUpload) {
 }
 
 
-
+/**
+ * set accept file like image/*
+ * @param accept
+ */
 public void setAccept(String accept){
 	fileUpload.getElement().setAttribute("accept", accept);
 }

@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (2)"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/guava-16.0.jar" sourcepath="C:/java/lib/guava-16.0-sources.jar"/>
 	<classpathentry kind="lib" path="lib/guava-gwt-16.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

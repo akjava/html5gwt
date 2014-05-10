@@ -217,10 +217,11 @@ public class HTML5Test implements EntryPoint {
 		
 		tab.add(new SpeechTest(),"Speech Synth");
 		tab.add(new RecognizeTest(),"Speech Recognize");
+		tab.add(new MediaTest(),"Media");
 		
 		int index=0;
 		String token=History.getToken();
-		List<String> labels=Lists.newArrayList("upload","range","download","filesystem","synth","recognize");
+		List<String> labels=Lists.newArrayList("upload","range","download","filesystem","synth","recognize","media");
 		for(int i=0;i<labels.size();i++){
 			if(labels.get(i).equals(token)){
 				index=i;
