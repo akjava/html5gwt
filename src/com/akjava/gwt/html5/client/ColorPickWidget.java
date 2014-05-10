@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -284,7 +285,7 @@ private void minus(){
 	if(remainColor<0){
 		remainColor=0;
 		}
-	range.setValue(remainColor/17);
+	((TakesValue<Integer>)range).setValue(remainColor/17);
 	update();
 }
 private void plus(){
@@ -292,7 +293,7 @@ private void plus(){
 	if(remainColor>255){
 		remainColor=255;
 		}
-	range.setValue(remainColor/17);
+	((TakesValue<Integer>)range).setValue(remainColor/17);
 	update();
 }
 @UiHandler("minus")

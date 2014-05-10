@@ -18,7 +18,7 @@ public abstract class InputRangeWidget extends FocusPanel implements InputRange,
 		InputRangeWidget range=GWT.create(InputRangeWidget.class);
 		range.setMin(min);
 		range.setMax(max);
-		range.setValue(current);
+		((TakesValue<Integer>)range).setValue(current);
 		return range;
 	}
 }
