@@ -15,11 +15,16 @@
  */
 package com.akjava.gwt.html5.client.file;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import com.akjava.gwt.html5.client.file.webkit.DirectoryCallback;
 import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.Item;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -368,6 +373,91 @@ public class FileUtils {
 	
 	public interface DataURLsListener{
 		public void uploaded(final List<File> files,List<String> values);
+	}
+	
+	public interface DirectoryFileListListener<T>{
+		public void onList(List<T> files);
+	}
+	
+	public static void readDirectryFileNames(FileEntry directoryFile,final DirectoryFileListListener<String> listener){
+		readDirectryFileNames(directoryFile,Predicates.<FileEntry>alwaysTrue(),listener);
+	}
+	public static void readDirectryFileNames(FileEntry directoryFile,final Predicate<FileEntry> fileEntryPredicate,final DirectoryFileListListener<String> listener){
+		checkState(directoryFile.isDirectory(),"directoryFile is not directory");
+		final DirectoryReader reader=directoryFile.getReader();
+		
+		final List<String> fileNames=new ArrayList<String>();
+		
+		DirectoryCallback callback=new DirectoryCallback() {
+			@Override
+			public void callback(JsArray<FileEntry> entries) {
+				for(int i=0;i<entries.length();i++){
+					FileEntry entry=entries.get(i);
+					if(fileEntryPredicate.apply(entry)){
+						fileNames.add(entry.getName());
+					}
+				}
+				
+				if(entries.length()>0){
+					reader.readEntries(this);
+				}else{
+					listener.onList(fileNames);
+				}
+			}
+		};
+		
+		
+		reader.readEntries(callback);
+	}
+	
+	/*
+	 
+	 FileUtils.readDirectryFileNames(file, new Predicate<FileEntry>() {
+						
+						@Override
+						public boolean apply(FileEntry input) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+					}, new DirectoryFileListListener<String>() {
+						
+						@Override
+						public void onList(List<String> files) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+	 
+	 */
+	public static void readDirectryFileEntries(FileEntry directoryFile,final DirectoryFileListListener<FileEntry> listener){
+		readDirectryFileEntries(directoryFile,Predicates.<FileEntry>alwaysTrue(),listener);
+	}
+	public static void readDirectryFileEntries(FileEntry directoryFile,final Predicate<FileEntry> fileEntryPredicate,final DirectoryFileListListener<FileEntry> listener){
+		checkState(directoryFile.isDirectory(),"directoryFile is not directory");
+		final DirectoryReader reader=directoryFile.getReader();
+		
+		final List<FileEntry> files=new ArrayList<FileEntry>();
+		
+		DirectoryCallback callback=new DirectoryCallback() {
+			@Override
+			public void callback(JsArray<FileEntry> entries) {
+				for(int i=0;i<entries.length();i++){
+					FileEntry entry=entries.get(i);
+					if(fileEntryPredicate.apply(entry)){
+						files.add(entry);
+					}
+				}
+				
+				if(entries.length()>0){
+					reader.readEntries(this);
+				}else{
+					listener.onList(files);
+				}
+			}
+		};
+		
+		
+		reader.readEntries(callback);
 	}
 	
 

@@ -14,6 +14,10 @@ public abstract class DropDockDataUrlRootPanel extends DropDockRootPanel{
 	public DropDockDataUrlRootPanel(Unit unit,boolean addRootLayoutPanel) {
 		super(unit,addRootLayoutPanel);
 	}
+	
+	public DropDockDataUrlRootPanel() {
+		super(Unit.PX,false);
+	}
 
 	private Predicate<File> filePredicate;
 	
@@ -51,5 +55,8 @@ public abstract class DropDockDataUrlRootPanel extends DropDockRootPanel{
 		}
 	}
 	
+	/*
+	 * if you'd like to know load all end.check lastmodifiedtime each loadfile and call timer after 1 second.and compare and decide end or not
+	 */
 	public abstract void loadFile(final String pareht,final Optional<File> optional,final String dataUrl);
 }
