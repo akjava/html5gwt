@@ -74,6 +74,20 @@ public final native void remove(VoidCallback simpleCallback,FileErrorCallback er
     
     this.remove(callback,error);
   	}-*/;
+
+public final native void removeRecursively(VoidCallback simpleCallback,FileErrorCallback errorCallback)/*-{
+
+var callback=function(){
+	simpleCallback.@com.akjava.gwt.html5.client.file.callback.VoidCallback::callback()();
+}
+
+ var error=function(fileerror){
+	errorCallback.@com.akjava.gwt.html5.client.file.callback.FileErrorCallback::fileErrorCallback(Lcom/akjava/gwt/html5/client/file/FileError;)(fileerror);
+}
+
+this.removeRecursively(callback,error);
+	}-*/;
+
 //TODO implement  removeRecursively()
 	
 //TODO implement copyTo,moveTo;

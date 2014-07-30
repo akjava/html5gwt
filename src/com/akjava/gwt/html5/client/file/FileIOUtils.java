@@ -118,6 +118,21 @@ private FileIOUtils(){}
 		writeFile(persitent,path,text,callback,append,"UTF-8");
 	}
 	
+	public static String toErrorMessage(Object object){
+		String message=null;
+		if(object!=null && object instanceof FileError){
+			FileError ferror=(FileError)object;
+			message=ferror.getCode()+"("+getErrorCodeValue(ferror.getCode())+")"+ferror.toString();
+		}else{
+			if(object!=null){
+			message+=object.toString();
+			}else{
+				message="";
+			}
+		}
+		return message;
+	}
+	
 	public static String getErrorCodeValue(int code){
 		String value=""+code;
 		switch(code){
@@ -186,6 +201,62 @@ private FileIOUtils(){}
 			}
 		},new MessageErrorCallback("requestFileSystem",callback));
 	}
+	
+	/*
+	 * possible happen INVALID_MODIFICATION_ERR if dir not empty
+	 */
+	public static void removeDirectory(boolean persitent,final String path,final RemoveCallback callback){
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				
+				fileSystem.getRoot().getDirectory(path,false,false, new FileEntryCallback(){
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						file.remove(new VoidCallback() {
+							@Override
+							public void callback() {
+								callback.onRemoved();
+							}
+						}, new MessageErrorCallback("remove",callback));
+					}
+				},new MessageErrorCallback("getFile",callback));
+				
+				
+			}
+		},new MessageErrorCallback("requestFileSystem",callback));
+	}
+	
+	public static void removeDirectoryRecursively(boolean persitent,final String path,final RemoveCallback callback){
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				
+				fileSystem.getRoot().getDirectory(path,false,false, new FileEntryCallback(){
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						file.removeRecursively(new VoidCallback() {
+							@Override
+							public void callback() {
+								callback.onRemoved();
+							}
+						}, new MessageErrorCallback("remove",callback));
+					}
+				},new MessageErrorCallback("getFile",callback));
+				
+				
+			}
+		},new MessageErrorCallback("requestFileSystem",callback));
+	}
+	
 	public static void writeFile(boolean persitent,final String path,final Blob dataFile,final WriteCallback callback){
 		int type=RequestFileSystem.TEMPORARY;
 		if(persitent){
