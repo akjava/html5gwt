@@ -410,6 +410,34 @@ public class FileUtils {
 		reader.readEntries(callback);
 	}
 	
+	public static void readDirectryFileUrls(FileEntry directoryFile,final Predicate<FileEntry> fileEntryPredicate,final DirectoryFileListListener<String> listener){
+		checkState(directoryFile.isDirectory(),"directoryFile is not directory");
+		final DirectoryReader reader=directoryFile.getReader();
+		
+		final List<String> fileNames=new ArrayList<String>();
+		
+		DirectoryCallback callback=new DirectoryCallback() {
+			@Override
+			public void callback(JsArray<FileEntry> entries) {
+				for(int i=0;i<entries.length();i++){
+					FileEntry entry=entries.get(i);
+					if(fileEntryPredicate.apply(entry)){
+						fileNames.add(entry.toURL());
+					}
+				}
+				
+				if(entries.length()>0){
+					reader.readEntries(this);
+				}else{
+					listener.onList(fileNames);
+				}
+			}
+		};
+		
+		
+		reader.readEntries(callback);
+	}
+	
 	/*
 	 
 	 FileUtils.readDirectryFileNames(file, new Predicate<FileEntry>() {

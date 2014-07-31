@@ -114,6 +114,29 @@ private FileIOUtils(){}
 		,new MessageErrorCallback("requestFileSystem",callback)
 		);
 	}
+	
+	public static void getDirectory(boolean persitent,final String path,final MakeDirectoryCallback callback){
+		
+		int type=RequestFileSystem.TEMPORARY;
+		if(persitent){
+			type=RequestFileSystem.PERSISTENT;
+		}
+		RequestFileSystem.requestFileSystem(type,0,new FileSystemCallback() {
+			@Override
+			public void fileSystemCallback(FileSystem fileSystem) {
+				fileSystem.getRoot().getDirectory(path,false,false, new FileEntryCallback(){
+					@Override
+					public void fileEntryCallback(final FileEntry file) {
+						callback.onMakeDirectory(file);
+					}
+				}
+				, new MessageErrorCallback("getDirectory",callback));
+			}
+		}
+		,new MessageErrorCallback("requestFileSystem",callback)
+		);
+	}
+	
 	public static void writeFile(boolean persitent,final String path,final String text,final WriteCallback callback,final boolean append){
 		writeFile(persitent,path,text,callback,append,"UTF-8");
 	}
@@ -525,6 +548,10 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 	}
 	public interface MakeDirectoryCallback extends ErrorCallback{
 		public void onMakeDirectory(FileEntry file);
+	}
+	
+	public interface GetDirectoryCallback extends ErrorCallback{//TODO replace them all
+		public void onGetDirectory(FileEntry file);
 	}
 
 	

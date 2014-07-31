@@ -1,8 +1,7 @@
 package com.akjava.gwt.html5.client.file;
 
-import com.google.gwt.core.client.JavaScriptObject;
 
-public class FileError extends JavaScriptObject{
+public class FileError extends DomError{
 protected FileError(){}
 
 public static final int NOT_FOUND_ERR=1;
@@ -18,6 +17,10 @@ public static final int INVALID_MODIFICATION_ERR=9;
 public static final int QUOTA_EXCEEDED_ERR=10;
 public static final int TYPE_MISMATCH_ERR=11;
 public static final int PATH_EXISTS_ERR=12;
+/**
+ * @deprecated use getName() or getMessage() of DomError
+ * @return
+ */
 public  final native int getCode() /*-{
 return this.code;
 }-*/;
