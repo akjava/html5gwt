@@ -10,6 +10,13 @@ public class Blob extends JavaScriptObject{
 	
 	protected Blob(){}
 	
+	public   final native double getSize()/*-{
+    return this.size;
+  	}-*/;
+	public   final native String getType()/*-{
+    return this.type;
+  	}-*/;
+	
 	
 	public  static final  Blob createBlob(JavaScriptObject object,String type){
 	@SuppressWarnings("unchecked")

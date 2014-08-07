@@ -1,6 +1,8 @@
 package com.akjava.gwt.html5.client.input;
 
 /*
+ * based on Hidden,Checkbox,ListBox
+ * 
  * Copyright 2008 Google Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -23,6 +25,9 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasName;
@@ -30,10 +35,8 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * Represents a color field in an HTML form.
- */
-public class ColorBox extends Widget implements HasName,HasValue<String>, IsEditor<LeafValueEditor<String>>/*,HasValueChangeHandlers<String>*/ {
+
+public class ColorBox extends Widget implements HasName,HasValue<String>, IsEditor<LeafValueEditor<String>> {
 
   /**
    * Creates a color widget that wraps an existing &lt;input type='color'&gt;
@@ -57,7 +60,22 @@ public class ColorBox extends Widget implements HasName,HasValue<String>, IsEdit
 
     return color;
   }
-
+  
+  protected void ensureDomEventHandlers() {
+	  addChangeHandler(new ChangeHandler() {
+		@Override
+		public void onChange(ChangeEvent event) {
+			 ValueChangeEvent.fire(ColorBox.this, getValue());
+		}
+	});
+	  
+	 
+	  }
+  
+  protected HandlerRegistration addChangeHandler(ChangeHandler handler) {
+	    return addDomHandler(handler, ChangeEvent.getType());
+	  }
+  
   private LeafValueEditor<String> editor;
 
   /**
@@ -204,15 +222,29 @@ public class ColorBox extends Widget implements HasName,HasValue<String>, IsEdit
     return getElement().cast();
   }
 
+  /*
+   * i have no idea so far
 @Override
 public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 	// TODO Auto-generated method stub
 	return null;
 }
+*/
 
 @Override
 public void setValue(String value, boolean fireEvents) {
 	setValue(value);
+}
+
+private boolean valueChangeHandlerInitialized;
+@Override
+public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+    // Is this the first value change handler? If so, time to add handlers
+    if (!valueChangeHandlerInitialized) {
+      ensureDomEventHandlers();
+      valueChangeHandlerInitialized = true;
+    }
+    return addHandler(handler, ValueChangeEvent.getType());
 }
 
 /*
