@@ -1,7 +1,7 @@
 package com.akjava.gwt.html5.client;
 
 
-public interface InputRange {
+public interface IInputRange {
 public void setMax(int max);
 public void setMin(int min);
 public int getMin();

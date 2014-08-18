@@ -1,11 +1,11 @@
 package com.akjava.gwt.html5.client.extra;
 
-import com.akjava.gwt.html5.client.InputRange;
+import com.akjava.gwt.html5.client.IInputRange;
 import com.akjava.gwt.html5.client.InputRangeListener;
 import com.google.gwt.user.client.ui.Label;
 
 public class HTML5Builder {
-	public static Label createRangeLabel(final String text,final InputRange range){
+	public static Label createRangeLabel(final String text,final IInputRange range){
 		final Label label=new Label();
 		label.setText(text+""+range.getValue());
 		label.setStylePrimaryName("title");
@@ -38,7 +38,7 @@ public class HTML5Builder {
 		return label;
 	}
 	//TODO add point
-	public static Label createRangeLabel(final String text,final InputRange range,final int divided){
+	public static Label createRangeLabel(final String text,final IInputRange range,final int divided){
 		final Label label=new Label();
 		label.setText(text+""+((double)range.getValue()/divided));
 		label.setStylePrimaryName("title");
@@ -51,7 +51,7 @@ public class HTML5Builder {
 		return label;
 	}
 	
-	public static Label createRangeLabel(final String text,final InputRange range,final int divided,final int point){
+	public static Label createRangeLabel(final String text,final IInputRange range,final int divided,final int point){
 		final Label label=new Label();
 		label.setText(text+""+((double)range.getValue()/divided));
 		label.setStylePrimaryName("title");

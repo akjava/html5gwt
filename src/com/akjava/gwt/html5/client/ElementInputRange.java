@@ -11,7 +11,7 @@ import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 
-public class ElementInputRange extends FocusWidget implements HasChangeHandlers,InputRange{
+public class ElementInputRange extends FocusWidget implements HasChangeHandlers,IInputRange{
 
 	public ElementInputRange(){
 		this(0,100,0);

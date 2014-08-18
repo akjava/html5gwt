@@ -19,7 +19,7 @@ import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.user.client.ui.Widget;
 
-public  class HTML5InputRange extends InputRangeWidget implements InputRange{
+public  class HTML5InputRange extends InputRangeWidget implements IInputRange{
 
 	
 	

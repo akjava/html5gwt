@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
  * @author aki
  *
  */
-public abstract class InputRangeWidget extends FocusPanel implements InputRange,IsEditor<LeafValueEditor<Integer>>,TakesValue<Integer>{
+public abstract class InputRangeWidget extends FocusPanel implements IInputRange,IsEditor<LeafValueEditor<Integer>>,TakesValue<Integer>{
 	public InputRangeWidget(){}
 	
 	public static InputRangeWidget createInputRange(int min,int max,int current){

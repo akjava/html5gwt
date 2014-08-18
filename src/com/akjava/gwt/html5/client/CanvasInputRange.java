@@ -16,7 +16,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 
-public class CanvasInputRange extends InputRangeWidget implements InputRange{
+public class CanvasInputRange extends InputRangeWidget implements IInputRange{
 private Canvas canvas;
 private int width;
 private int height;
