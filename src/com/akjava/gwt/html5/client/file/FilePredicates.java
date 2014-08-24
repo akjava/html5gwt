@@ -28,6 +28,8 @@ public class FilePredicates {
 		}
 	}
 	
+	
+	//for ImagePredicate
 	//TODO supplier?
 	public static ListedExtensionOnly getImageExtensionOnly(){
 		return ImageExtensionOnly;

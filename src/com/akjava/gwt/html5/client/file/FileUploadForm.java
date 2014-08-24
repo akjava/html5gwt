@@ -19,7 +19,7 @@ public static String ACCEPT_IMAGE_GIF="image/gif";
 public static String ACCEPT_IMAGE="image/*";
 public static String ACCEPT_AUDIO="audio/*";
 public static String ACCEPT_VIDEO="video/*";
-
+public static String ACCEPT_ZIP=".zip";
 
 public boolean isShowDragOverBorder() {
 	return showDragOverBorder;
@@ -33,6 +33,10 @@ public void setShowDragOverBorder(boolean showDragOverBorder) {
 	this.showDragOverBorder = showDragOverBorder;
 }
 
+/**
+ * don't add this directlly panel ,reset would not work
+ * @return
+ */
 public FileUpload getFileUpload() {
 	return fileUpload;
 }
@@ -41,9 +45,13 @@ public void setFileUpload(FileUpload fileUpload) {
 	this.fileUpload = fileUpload;
 }
 
+public void setEnabled(boolean bool){
+	fileUpload.setEnabled(bool);
+}
 
 /**
  * set accept file like image/*
+ * .zip
  * @param accept
  */
 public void setAccept(String accept){

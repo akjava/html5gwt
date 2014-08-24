@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.user.client.Timer;
 
 
 public class FileUtils {
@@ -148,6 +149,17 @@ public class FileUtils {
 		return form;
 	}
 	
+	public static final native void log(String obj)/*-{
+	$wnd.console.log(obj);
+}-*/;
+	
+	/**
+	 * 
+	 * @param listener
+	 * @param reset
+	 * @param supportOnDrop ,if root dock catch drop nothing happen here.
+	 * @return
+	 */
 	public static FileUploadForm createSingleFileUploadForm(final DataArrayListener listener,final boolean reset,boolean supportOnDrop){
 		final FileUploadForm form=new FileUploadForm();
 		form.getDropPanel().addDragOverHandler(new DragOverHandler() {
@@ -190,6 +202,7 @@ public class FileUtils {
 						public void onLoad() {
 							listener.uploaded(files.get(0), reader.getResultAsBuffer());
 							if(reset){
+								
 								form.reset();
 							}
 						}
@@ -212,7 +225,9 @@ public class FileUtils {
 					public void onLoad() {
 						listener.uploaded(files.get(0), reader.getResultAsBuffer());
 						if(reset){
+							
 							form.reset();
+							
 						}
 					}
 				});
