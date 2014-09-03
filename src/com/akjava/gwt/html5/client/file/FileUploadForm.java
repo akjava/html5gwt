@@ -20,7 +20,7 @@ public static String ACCEPT_IMAGE="image/*";
 public static String ACCEPT_AUDIO="audio/*";
 public static String ACCEPT_VIDEO="video/*";
 public static String ACCEPT_ZIP=".zip";
-
+public static String ACCEPT_JAVASCRIPT=".js,.json";
 public boolean isShowDragOverBorder() {
 	return showDragOverBorder;
 }
