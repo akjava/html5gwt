@@ -23,6 +23,10 @@ public class HTML5Download implements FileDownload {
 	public HTML5Download(){
 		windowURL=DownloadURL.get();
 	}
+	
+	public String createObjectURL(Blob blob){
+		return windowURL.createObjectURL(blob);
+	}
 	/**
 	 * @deprecated
 	 * @return

@@ -11,6 +11,7 @@ import com.akjava.gwt.html5.client.file.webkit.FileEntry;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.RequestQuotaCallback;
 import com.akjava.gwt.html5.client.file.webkit.WebkitStorageInfo.StorageInfoUsageCallback;
+import com.google.gwt.core.client.JavaScriptObject;
 
 public class FileIOUtils {
 private FileIOUtils(){}
@@ -305,12 +306,14 @@ private FileIOUtils(){}
 								fileWriter.setOnError(new ProgressEventCallback() {
 									@Override
 									public void progressEventCallback(ProgressEvent progressEvent) {
+										log(progressEvent);
 										callback.onError("onWrite",file);
 									}
 								});//maybe should remove it
 								
 								
 								if(fileWriter.length()>0){
+									
 									fileWriter.setOnWriteEnd(new ProgressEventCallback() {
 										@Override
 										public void progressEventCallback(ProgressEvent progressEvent) {
@@ -327,7 +330,7 @@ private FileIOUtils(){}
 									
 									
 									
-									
+									//right now do empty first.
 									fileWriter.truncate(0);//FUTURE blob support length	
 								}else{
 									
@@ -337,7 +340,7 @@ private FileIOUtils(){}
 											callback.onWriteEnd(file);
 										}
 									});
-									
+									log("try to write:"+dataFile.getSize());
 									fileWriter.write(dataFile);
 								}
 								
@@ -554,6 +557,10 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 		public void onGetDirectory(FileEntry file);
 	}
 
+	//TODO
+	public static interface HasBlob{
+		public Blob getBlob();
+	}
 	
 	public static boolean DEBUG;
 	private static void debug(String log){
@@ -564,6 +571,15 @@ public static void getFileSystem(boolean persitent,final GetFileSystemListener l
 	}
 	
 	private static final native void log(String object)/*-{
+	if (navigator.appName == 'Microsoft Internet Explorer'){
+		return;
+	}
+if(console){
+	console.log(object);
+}
+}-*/;
+	
+	private static final native void log(JavaScriptObject object)/*-{
 	if (navigator.appName == 'Microsoft Internet Explorer'){
 		return;
 	}
