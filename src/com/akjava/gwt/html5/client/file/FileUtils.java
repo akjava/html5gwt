@@ -64,7 +64,10 @@ public class FileUtils {
 	}
 
 
-	
+
+	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener){
+		return createSingleFileUploadForm(listener, true, true);//change default support drop
+	}
 	public static FileUploadForm createSingleFileUploadForm(final DataURLListener listener,final boolean reset){
 		return createSingleFileUploadForm(listener, reset, true);//change default support drop
 	}
@@ -153,6 +156,14 @@ public class FileUtils {
 	$wnd.console.log(obj);
 }-*/;
 	
+	
+	public static FileUploadForm createSingleFileUploadForm(final DataArrayListener listener){
+		return createSingleFileUploadForm(listener,true,true);
+	}
+	
+	public static FileUploadForm createSingleFileUploadForm(final DataArrayListener listener,final boolean reset){
+		return createSingleFileUploadForm(listener,reset,true);
+	}
 	/**
 	 * 
 	 * @param listener

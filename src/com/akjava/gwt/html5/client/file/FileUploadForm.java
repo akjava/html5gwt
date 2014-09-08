@@ -1,9 +1,11 @@
 package com.akjava.gwt.html5.client.file;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.akjava.gwt.html5.client.file.ui.DropVerticalPanelBase;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -20,6 +22,7 @@ public static String ACCEPT_IMAGE="image/*";
 public static String ACCEPT_AUDIO="audio/*";
 public static String ACCEPT_VIDEO="video/*";
 public static String ACCEPT_ZIP=".zip";
+public static String ACCEPT_TXT=".txt";
 public static String ACCEPT_JAVASCRIPT=".js,.json";
 public boolean isShowDragOverBorder() {
 	return showDragOverBorder;
@@ -85,6 +88,22 @@ public DropVerticalPanelBase getDropPanel(){
 @Override
 public void setTitle(String title) {
 	fileUpload.setTitle(title);
+}
+
+/*
+ * basically accept start with . like .jpg.but this set only extension name for compatible others.
+ */
+public void setAcceptByExtension(List<String> supportExtensions) {
+	List<String> accepts=new ArrayList<String>();
+	for(String extension:supportExtensions){
+		if(!extension.startsWith(".")){
+			extension="."+extension;
+		}
+		if(!extension.isEmpty()){
+			accepts.add(extension);
+		}
+	}
+	setAccept(accepts);
 }
 
 }

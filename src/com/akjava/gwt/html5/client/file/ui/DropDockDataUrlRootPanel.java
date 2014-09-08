@@ -58,5 +58,5 @@ public abstract class DropDockDataUrlRootPanel extends DropDockRootPanel{
 	/*
 	 * if you'd like to know load all end.check lastmodifiedtime each loadfile and call timer after 1 second.and compare and decide end or not
 	 */
-	public abstract void loadFile(final String pareht,final Optional<File> optional,final String dataUrl);
+	public abstract void loadFile(final String parent,final Optional<File> optional,final String dataUrl);
 }
