@@ -2,6 +2,7 @@ package com.akjava.gwt.html5.client.file;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.typedarrays.client.Uint8ArrayNative;
 import com.google.gwt.typedarrays.shared.ArrayBuffer;
 
 /*
@@ -72,6 +73,9 @@ protected Uint8Array(){}
 		return bt;
 	}
 
+	public final Uint8ArrayNative convertToNative(){
+		return this.cast();
+	}
 
 	
 	
