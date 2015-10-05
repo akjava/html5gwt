@@ -15,7 +15,7 @@ public abstract class DataUrlDropVerticalRootPanel extends DropVerticalRootPanel
 	
 	@Override
 	public void callback(final File file, String parent) {
-
+		
 		if(file==null){
 			return;
 		}
@@ -26,6 +26,7 @@ public abstract class DataUrlDropVerticalRootPanel extends DropVerticalRootPanel
 
 				String dataUrl=reader.getResultAsString();
 				loadFile(file, dataUrl);
+				loadFileIndex++;
 			}
 		});
 		

@@ -22,7 +22,7 @@
       	    </fileset>
       	  </path>
         <javac destdir="tmp" srcdir="src">
-        	<classpath path="C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.5.1\gwt-2.5.1\gwt-user.jar;C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.5.1\gwt-2.5.1\gwt-dev.jar">
+        	<classpath path="C:\eclipse\gwt-2.6.1\gwt-user.jar;C:\eclipse\gwt-2.6.1\gwt-dev.jar">
         		<path refid="libs"/>
         	</classpath>
         </javac>

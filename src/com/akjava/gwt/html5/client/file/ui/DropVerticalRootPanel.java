@@ -64,12 +64,14 @@ public abstract class DropVerticalRootPanel extends DropVerticalPanelBase implem
 		}
 	}
 	
+	protected int loadFileIndex;//reset on drop start,increment in callback by yourselef
 	public void entryCallback(final FileEntry entry,final FilePathCallback callback,String path){
 		if(entry==null){
 			return;
 		}
 		if (entry.isFile()) {
 			entry.file(callback,path);
+			
 		} else if (entry.isDirectory()) {
 			entry.getReader().readEntries(
 					new DirectoryCallback() {
@@ -87,6 +89,7 @@ public abstract class DropVerticalRootPanel extends DropVerticalPanelBase implem
 	}
 	
 	public  void onDropFiles(List<FileEntry> files){
+		loadFileIndex=0;
 		for(FileEntry file:files){
 			entryCallback(file,this,"");
 		}

@@ -60,6 +60,9 @@ public void setEnabled(boolean bool){
 public void setAccept(String accept){
 	fileUpload.getElement().setAttribute("accept", accept);
 }
+public void setAccept(String... accepts){
+	fileUpload.getElement().setAttribute("accept", Joiner.on(",").join(accepts));
+}
 
 public void setAccept(List<String> accepts){
 	fileUpload.getElement().setAttribute("accept", Joiner.on(",").join(accepts));
