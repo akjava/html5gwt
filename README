@@ -1,3 +1,7 @@
+Merged to https://github.com/akjava/akjava_gwtlib
+
+I'll only make test html5 code on this project.
+
 something html5 like widget.
 
 File API - support readAsText(),readAsDataURl(),readAsArrayBuffer(), this works Chrome & Firefox 12,not works any IE yet
